@@ -18,7 +18,7 @@
 			$plist = array();
 
 			if ($handle = opendir(NEMEX_PATH.'projects')) {
-			    $blacklist = array('.', '..');
+			    $blacklist = array('.', '..', '.gitignore');
 			    while (false !== ($file = readdir($handle))) 
 			        if (!in_array($file, $blacklist)) 
 			        	 $plist[filemtime(NEMEX_PATH.'projects/'.$file)] = $file;
