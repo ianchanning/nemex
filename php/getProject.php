@@ -39,7 +39,7 @@ if(!empty($activeProject)){
 	
 	<div id="newMarkdown" class="row">
 
-		<div class="c3 edit-mode" 'style=visibility:hidden;'>
+		<div class="c3 edit-mode" style='visibility:hidden;'>
 			<p class="date">preview</p>
 			<div class="content"></div>
 			<div class="actions">
@@ -55,7 +55,7 @@ if(!empty($activeProject)){
 
 	</div>
 
-	<?
+	<?php
 	$rs->data_seek(0);
 	while( $node = $rs->fetch_assoc() ){
 
@@ -65,12 +65,12 @@ if(!empty($activeProject)){
 
 		<div class="row">
 
-			<div class="itemId"><? echo $node['id'] ?></div>
+			<div class="itemId"><?php echo $node['id'] ?></div>
 						
 
-			<? if( $node['type'] == "txt") { ?>
+			<?php if( $node['type'] == "txt") { ?>
 	
-			<div class="c3" 'style=visibility:hidden;'>
+			<div class="c3" style='visibility:hidden;'>
 			<p class="date"><? echo $datum; ?></p>
 			<?php  getColumn($node['content'], r);  ?>&nbsp;</div>
 			<div class="c3edit"><textarea class="editareafield"></textarea>
@@ -78,10 +78,10 @@ if(!empty($activeProject)){
 			<div class="backup"></div>
 			</div>
 	
-			<? } else if( $node['type'] == "img"){ ?>
+			<?php } else if( $node['type'] == "img"){ ?>
 			<div class="c3" >
-			<p class="date"><? echo $datum; ?></p>
-			<?  echo "<img src='projects/".$node['name']."/".$node['content']."'/>";  ?>
+			<p class="date"><?php echo $datum; ?></p>
+			<?php  echo "<img src='projects/".$node['name']."/".$node['content']."'/>";  ?>
 				<div class="actions image">
 					<div class="delete"></div>		
 				</div>
@@ -89,7 +89,7 @@ if(!empty($activeProject)){
 			</div>
 			<div class="c3edit"><span class="save">save</span><br /><textarea class="editareafield"></textarea></div>
 	
-			<? } ?>
+			<?php } ?>
 		</div>
 		
 		<?php
