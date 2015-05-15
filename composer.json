@@ -1,0 +1,25 @@
+{
+    "name": "ianchanning/vandaphp",
+    "description": "Vanda PHP",
+    "license": "MIT",
+    "homepage": "https://github.com/ianchanning/vandaphp",
+    "support": {
+        "issues": "https://github.com/ianchanning/vandaphp/issues",
+        "source": "https://github.com/ianchanning/vandaphp"
+    },
+    "authors": [
+        {
+            "name": "Ian Channing",
+            "email": "ian@ianchanning.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/ianchanning/vandaphp-core"
+        }
+    ],
+    "require": {
+        "ianchanning/vandaphp-core": "dev-master"
+    }
+}
