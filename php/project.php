@@ -75,7 +75,7 @@ echo '';
 					<p class="date">preview</p>
 					<div class="ncontent"><div class="content"></div></div>
 					<div class="actions">
-						<div class="edit" data-target="'.$align.'"></div>
+						<div class="edit" data-target=""></div>
 						<div class="delete"></div>
 					</div>
 				</div>
@@ -109,7 +109,7 @@ echo '';
 								<p class="date">'.$datum.'</p>
 								<div class="ncontent">';
 						 	
-						 	$this->getColumn($node->getContent(), r); 
+						 	$this->getColumn($node->getContent(), 'r'); 
 						 	echo '</div></div>
 								<div class="c3edit"><textarea class="editareafield"></textarea>
 								<div class="save"></div><div class="discardUpdate"></div>

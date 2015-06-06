@@ -24,8 +24,11 @@ class node {
 
 
  function extractTime() {
-  $this->unixtime = basename($this->name);
-  $this->time = date("j. F Y",  basename($this->name));;
+  $name = basename($this->name, '.md');
+  $this->unixtime = substr($name, 0, strpos($name, '-'));
+  fb($this->name);
+  fb($this->unixtime);
+  $this->time = date("j. F Y", $this->unixtime);
  }
 
 

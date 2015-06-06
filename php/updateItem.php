@@ -1,4 +1,5 @@
 <?php
+	session_start();
 	define('NEMEX_PATH', '../');
 
 	include(NEMEX_PATH.'auth.php');

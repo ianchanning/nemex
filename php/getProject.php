@@ -72,7 +72,7 @@ if(!empty($activeProject)){
 	
 			<div class="c3" style='visibility:hidden;'>
 			<p class="date"><? echo $datum; ?></p>
-			<?php  getColumn($node['content'], r);  ?>&nbsp;</div>
+			<?php  getColumn($node['content'], 'r');  ?>&nbsp;</div>
 			<div class="c3edit"><textarea class="editareafield"></textarea>
 			<div class="save"></div><div class="discardUpdate"></div>
 			<div class="backup"></div>

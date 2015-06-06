@@ -30,7 +30,7 @@
          }
         }
 
-       header('Location: http://'.$hostname.($path == '/' ? '' : $path).'/index.php');
+       header('Location: http://'.$hostname.($path == DIRECTORY_SEPARATOR ? '' : $path).'/index.php');
        exit;
        }
       }
