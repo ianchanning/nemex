@@ -1,8 +1,4 @@
 <?php
-    session_start();
-
-    include_once(NEMEX_PATH.'php/functions.php');
-     
     $hostname = $_SERVER['HTTP_HOST'];
     $path = dirname($_SERVER['PHP_SELF']);
     
