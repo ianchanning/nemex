@@ -19,27 +19,12 @@
  * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 define('NEMEX_PATH', '');
-require_once('functions.php');
 session_start();
 
 include(NEMEX_PATH.'auth.php');
-
+// fb('here');
 include_once(NEMEX_PATH.'php/functions.php');
 include_once('php/project.php');
 include_once('php/user.php');
 
 $u = new user('1');
-
-$view = (isset($_GET['v'])) ? strtolower($_GET['v']) : 'pages';
-$action = (isset($_GET['a'])) ? strtolower($_GET['a']) : 'index';
-$model = view_to_model($view);
-$controller = $model.'Controller';
-
-require_once('model.php');
-require_once('view.php');
-require_once('controller.php');
-require_once('controllers'.DIRECTORY_SEPARATOR.$view.'_controller.php');
-
-$controller_obj = new $controller($model);
-$controller_obj->{$action}();
-$controller_obj->renderView($view, $action);
