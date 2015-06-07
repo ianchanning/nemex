@@ -4,9 +4,10 @@
     include(NEMEX_PATH.'config.php');
 
 
-     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-      session_start();
-
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+      if (session_id() === '') {
+          session_start();
+      }
       $cfg = new Cfg();
 
 
@@ -30,7 +31,7 @@
          }
         }
 
-       header('Location: http://'.$hostname.($path == '/' ? '' : $path).'/index.php');
+       header('Location: http://'.$hostname.($path == DIRECTORY_SEPARATOR ? '' : $path).'/index.php');
        exit;
        }
       }

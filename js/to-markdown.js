@@ -74,7 +74,7 @@ var toMarkdown = function(string) {
   ];
   
   for(var i = 0, len = ELEMENTS.length; i < len; i++) {
-    if(typeof ELEMENTS[i].patterns === 'string') {
+    if (typeof ELEMENTS[i].patterns === 'string') {
       string = replaceEls(string, { tag: ELEMENTS[i].patterns, replacement: ELEMENTS[i].replacement, type:  ELEMENTS[i].type });
     }
     else {
@@ -88,7 +88,7 @@ var toMarkdown = function(string) {
     var pattern = elProperties.type === 'void' ? '<' + elProperties.tag + '\\b([^>]*)\\/?>' : '<' + elProperties.tag + '\\b([^>]*)>([\\s\\S]*?)<\\/' + elProperties.tag + '>',
         regex = new RegExp(pattern, 'gi'),
         markdown = '';
-    if(typeof elProperties.replacement === 'string') {
+    if (typeof elProperties.replacement === 'string') {
       markdown = html.replace(regex, elProperties.replacement);
     }
     else {
@@ -133,7 +133,7 @@ var toMarkdown = function(string) {
       lis.splice(lis.length - 1, 1);
       
       for(i = 0, len = lis.length; i < len; i++) {
-        if(lis[i]) {
+        if (lis[i]) {
           var prefix = (listType === 'ol') ? (i + 1) + ".  " : "*   ";
           lis[i] = lis[i].replace(/\s*<li[^>]*>([\s\S]*)/i, function(str, innerHTML) {
             

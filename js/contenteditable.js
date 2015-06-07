@@ -4,7 +4,7 @@ var contenteditable;
     function strFloatToFloat(t) {
         var i, v;
         i = t.indexOf(",");
-        if(i !== -1) {
+        if (i !== -1) {
             v = parseFloat(t.substr(0, i) + "." + t.substr(i + 1));
         } else {
             v = parseFloat(t);
@@ -12,8 +12,8 @@ var contenteditable;
         return v;
     }
     function content2value($t) {
-        if($t.hasClass('is-number')) {
-            if($t.hasClass("is-float")) {
+        if ($t.hasClass('is-number')) {
+            if ($t.hasClass("is-float")) {
                 return strFloatToFloat($t.text());
             } else {
                 return parseInt($t.text());
@@ -28,7 +28,7 @@ var contenteditable;
     });
     $(document).keypress(function (event) {
         var $t;
-        if(event.which === 13 && typeof ($t = $(event.target)).attr("contenteditable") !== 'undefined') {
+        if (event.which === 13 && typeof ($t = $(event.target)).attr("contenteditable") !== 'undefined') {
             $t.trigger("blur");
             return false;
         }

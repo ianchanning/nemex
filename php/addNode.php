@@ -1,6 +1,6 @@
 <?php
 
-	/* 
+	/*
 		save text-node in project folder
 	*/
 
@@ -10,7 +10,7 @@
 	include(NEMEX_PATH.'auth.php');
 	include_once(NEMEX_PATH.'php/functions.php');
 
-	if(isset($_POST['itemContent'])) {
+	if (isset($_POST['itemContent'])) {
 		$filehash = substr(randomHash(), 12);
 		$file = NEMEX_PATH.'projects/'.$_POST['project']."/".time().'-'.$filehash.'.md';
 		$current = $_POST['itemContent'];
@@ -20,5 +20,3 @@
 		chmod($file, 0666);
 		umask($old);
 	}
-
-?>

@@ -12,49 +12,50 @@ class node {
 
 
   function __construct( $nn, $pp ) {
-   $this->name = basename($nn);
-   $this->project = $pp;
+    $this->name = basename($nn);
+    $this->project = $pp;
 
-   $this->extractTime();
-   $this->type = $this->extractType();
-   $this->content = file_get_contents(NEMEX_PATH.'projects/'.$this->project.'/'.$this->name);
+    $this->extractTime();
+    $this->type = $this->extractType();
+    $this->content = file_get_contents(NEMEX_PATH.'projects/'.$this->project.'/'.$this->name);
   }
 
 
 
 
- function extractTime() {
-  $this->unixtime = basename($this->name);
-  $this->time = date("j. F Y",  basename($this->name));;
- }
+  function extractTime() {
+    $name = basename($this->name, '.md');
+    $this->unixtime = substr($name, 0, strpos($name, '-'));
+    fb($this->name);
+    fb($this->unixtime);
+    $this->time = date("j. F Y", $this->unixtime);
+  }
 
 
 
-function extractType() {
-  $path_parts = pathinfo(NEMEX_PATH.'projects/'.$this->project.'/'.$this->name);
-  if($path_parts['extension'] == 'jpg' || $path_parts['extension'] == 'jpeg' || $path_parts['extension'] == 'JPG'|| $path_parts['extension'] == 'png' || $path_parts['extension'] == 'gif')
-   return 'img';
- else if($path_parts['extension'] == 'txt')
-   return 'txt';
-  else if($path_parts['extension'] == 'md')
-   return 'md';
- }
+  function extractType() {
+    $path_parts = pathinfo(NEMEX_PATH.'projects/'.$this->project.'/'.$this->name);
+    if ($path_parts['extension'] == 'jpg' || $path_parts['extension'] == 'jpeg' || $path_parts['extension'] == 'JPG'|| $path_parts['extension'] == 'png' || $path_parts['extension'] == 'gif')
+     return 'img';
+   else if ($path_parts['extension'] == 'txt')
+     return 'txt';
+    else if ($path_parts['extension'] == 'md')
+     return 'md';
+  }
 
-function getDate() {
-  return $this->time;
+  function getDate() {
+    return $this->time;
+  }
+
+  function getName() {
+    return $this->name;
+  }
+
+  function getContent() {
+    return $this->content;
+  }
+
+  function getType() {
+    return $this->type;
+  }
 }
-
-function getName() {
-  return $this->name;
-}
-
-function getContent() {
-  return $this->content;
-}
-
-function getType() {
-  return $this->type;
-}
-}
-
-?>
