@@ -1,105 +1,58 @@
 <?php
-/**
- * Nemex (http://sourceforge.net/p/vandaphp/)
- * Copyright 2015, Ian Channing
- *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
- *
- * @filesource
- * @copyright     Copyright 2015, Ian Channing (http://ianchanning.com)
- * @link          http://github.com/ianchanning/nemex Nemex
- * @package       nemex
- * @since         Nemex v 0.99
- * @modifiedby    icc97
- * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
- */
-date_default_timezone_set('UTC');
 
-define('NEMEX_PATH', '');
-include('vendor/firephp-firebug-php/firephp.php');
+define( 'NX_PATH', realpath('./').'/' );
 
-include_once(NEMEX_PATH.'auth.php');
+require_once(NX_PATH.'config.php');
+require_once(NX_PATH.'lib/session.php');
+require_once(NX_PATH.'lib/utils.php');
+require_once(NX_PATH.'lib/project.php');
 
-include_once(NEMEX_PATH.'php/functions.php');
-include_once('php/project.php');
-include_once('php/user.php');
+header( 'Content-type: text/html; Charset=UTF-8' );
+$session = new Session('nemex', NX_PATH, CONFIG::USER, CONFIG::PASSWORD);
 
-$u = new user('1');
-?>
+// Attempting to login?
+if( !empty($_POST['username']) && !empty($_POST['password']) ) {
+	if( $session->login($_POST['username'], $_POST['password']) ) {
+		header('location: ./');
+		exit();
+	}
+}
 
-<html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="viewport" content="width=device-width, minimal-ui">
-		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-		<title>nemex.io</title>
-		<link rel="stylesheet" type="text/css" href="css/style.css">
-		<link rel="stylesheet" type="text/css" href="css/style-res.css">
-		<link rel="apple-touch-icon" sizes="60x60" href="touch-icon-iphone.png">
-		<link rel="apple-touch-icon" sizes="76x76" href="img/touch-icon-ipad.png">
-		<link rel="apple-touch-icon" sizes="120x120" href="img/touch-icon-iphone-retina.png">
-		<link rel="apple-touch-icon" sizes="152x152" href="img/touch-icon-ipad-retina.png">
-		<script> var noElements = 0; </script>
-		<link rel="icon" type="image/png" href="favicon.png" />
+// Not authed for this nemex? Maybe we have a sharekey for the project?
+// If not, just show the login form
+if( !$session->isAuthed() ) {
+	if( count($_GET) == 2 ) {
+		$get = array_keys($_GET);
+		$projectName = $get[0];
+		$sharekey = $get[1];
 
-
-	</head>
-
-	<body>
-	<div id="mdhelp">
-		<h1>markdown help</h1>
-			headlines: # headline1 ## headline2 ...<br/>
-			code: `nemex` (backticks)<br />
-			link: [nemex io](http://www.nemex.io)<br/>
-			bold text: *nemex* or _nemex_<br />
-			italic text: **nemex** or __nemex__<br />
-	</div>
-
-
-	<?php
-		if (isset($_GET['view']) ) {
-			$p = new project($_GET['view'], '1');
-			$p->getNodes();
-			$p->showProject();
+		$project = Project::openWithSharekey($projectName, $sharekey);
+		if( $project ) {
+			$nodes = $project->getNodes();
+			include( NX_PATH.'media/templates/project-readonly.html.php');
+			exit();
 		}
-		else if (isset($_GET['deleteProject']) ) {
-			$p = new project($_GET['deleteProject'], '1');
-			$p->deleteProject();
+	}
+
+	include( NX_PATH.'media/templates/login.html.php');
+}
+
+// Show project or project list
+else {
+	if( !empty($_GET) ) {
+		$projectName = key($_GET);
+		$project = Project::open($projectName);
+		if( $project ) {
+			$nodes = $project->getNodes();
+			include( NX_PATH.'media/templates/project.html.php');
 		}
 		else {
-			echo '<div class="header">NEMEX</div>';
-			echo '<div class="project-list">';
-
-			echo '<div id="addProject"></div>
-					<div class="addProjectForm">
-						<input type="text" id="newProject" placeholder="Project name:"/><br/><button type="submit" id="np" ></button>
-					</div>';
-
-			$u->showProjects();
-
-			echo '</div>';
-			echo '<div class="navigation">
-			<a class="index" href="logout.php"><img src="img/logout.svg" /></a>
-			</div>';
+			header( "HTTP/1.1 404 Not Found" );
+			echo 'No Such Project: '.htmlspecialchars($projectName);
 		}
-	 ?>
-
-	<div class="preloader">
-		<img src="img/cancel@2x.png" />
-		<img src="img/cancel_edit@2x.png" />
-		<img src="img/save@2x.png" />
-	</div>
-
-	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-	<script src="js/contenteditable.js" type="text/javascript" ></script>
-	<script src="js/showdown.js" type="text/javascript" ></script>
-	<script src="js/to-markdown.js" type="text/javascript" ></script>
-	<script src="js/script.js" type="text/javascript"></script>
-	<script src="js/jquery.autosize.min.js" type="text/javascript"></script>
-	<script src="js/snap.min.js" type="text/javascript"></script>
-	<script src="js/webapp.js" type="text/javascript"></script>
-</body>
-</html>
+	}
+	else {
+		$projects = Project::getProjectList();
+		include( NX_PATH.'media/templates/project-list.html.php');
+	}
+}
