@@ -4,9 +4,10 @@
     include(NEMEX_PATH.'config.php');
 
 
-     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-      session_start();
-
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+      if (session_id() === '') {
+          session_start();
+      }
       $cfg = new Cfg();
 
 

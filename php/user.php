@@ -41,7 +41,7 @@
 
 		function showProjects() {
 
-			if(sizeof($this->projects) > 0) {
+			if (sizeof($this->projects) > 0) {
 				foreach ($this->projects as $project)
 					echo "<a href='index.php?view=".$project->getName()."'>
 							<div class='project-list-item' style='background:linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url(projects/".$project->getTitleImage().") no-repeat left center; background-size: 100% auto ; '>
@@ -60,7 +60,7 @@
 
 
 		function addProject($ptitle) {
-			if(!empty($ptitle)){
+			if (!empty($ptitle)){
 				if (!file_exists(NEMEX_PATH.'projects/'.$ptitle)) {
 				    mkdir(NEMEX_PATH.'projects/'.$ptitle, 0777, true);
 				 	mkdir(NEMEX_PATH.'projects/'.$ptitle.'/big', 0777, true);
@@ -71,5 +71,3 @@
 		}
 
 	}
-
-?>

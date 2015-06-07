@@ -1,7 +1,7 @@
 <?php
 
 	class Cfg{
-	
+
 		private $usr = 'nemex';
 		private $pwd = 'io';
 
@@ -13,5 +13,3 @@
 		}
 
 	}
-
-?>

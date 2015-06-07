@@ -17,10 +17,9 @@
 date_default_timezone_set('UTC');
 
 define('NEMEX_PATH', '');
-session_start();
 include('vendor/firephp-firebug-php/firephp.php');
 
-include(NEMEX_PATH.'auth.php');
+include_once(NEMEX_PATH.'auth.php');
 
 include_once(NEMEX_PATH.'php/functions.php');
 include_once('php/project.php');
@@ -61,12 +60,12 @@ $u = new user('1');
 
 
 	<?php
-		if(isset($_GET['view']) ) {
+		if (isset($_GET['view']) ) {
 			$p = new project($_GET['view'], '1');
 			$p->getNodes();
 			$p->showProject();
 		}
-		else if(isset($_GET['deleteProject']) ) {
+		else if (isset($_GET['deleteProject']) ) {
 			$p = new project($_GET['deleteProject'], '1');
 			$p->deleteProject();
 		}
