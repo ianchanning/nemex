@@ -4,7 +4,7 @@ require_once(NX_PATH.'lib/node-image.php');
 require_once(NX_PATH.'lib/node-text.php');
 
 
-class Project {
+class Projects {
 	protected static $dirProtectIndex = '<?php header( "HTTP/1.1 403 forbidden" );';
 	protected static $fileGlob = '*.{md,jpg,jpeg,png,gif}';
 	protected static $titleImageGlob = '*.{jpg,jpeg,png,gif}';
@@ -27,13 +27,13 @@ class Project {
 		file_put_contents($path.'index.php', self::$dirProtectIndex);
 		setFileMode($path.'index.php');
 
-		return Project::open($name);
+		return Projects::open($name);
 	}
 
 	public static function open($name) {
 		$path = self::sanitizePath($name);
 		return is_dir($path)
-			? new Project($path)
+			? new Projects($path)
 			: null;
 	}
 

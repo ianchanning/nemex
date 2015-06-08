@@ -1,6 +1,6 @@
 <?php
 
-class Image {
+class Images {
 	protected $image = null;
 	public $width = 0;
 	public $height = 0;

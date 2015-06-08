@@ -3,7 +3,7 @@
 require_once(NX_PATH.'lib/project.php');
 
 
-class Node {
+class Nodes {
 	protected $path = null;
 	protected $extension = 'txt';
 

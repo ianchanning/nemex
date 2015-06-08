@@ -3,7 +3,7 @@
 require_once(NX_PATH.'lib/node.php');
 
 
-class NodeText extends Node {
+class NodeText extends Nodes {
 	protected $extension = 'md';
 	public $type = 'text';
 

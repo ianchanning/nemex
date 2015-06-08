@@ -3,7 +3,7 @@
 require_once(NX_PATH.'lib/node.php');
 require_once(NX_PATH.'lib/image.php');
 
-class NodeImage extends Node {
+class NodeImage extends Nodes {
 	protected $extension = 'jpg';
 	public $type = 'image';
 
@@ -16,7 +16,7 @@ class NodeImage extends Node {
 	}
 
 	public static function createFromUpload($basePath, $uploadPath) {
-		$image = new Image($uploadPath);
+		$image = new Images($uploadPath);
 		if( !$image->valid ) {
 			return null;
 		}

@@ -16,18 +16,18 @@ class AjaxController {
 	}
 
 	public function addProject() {
-		$this->response['created'] = !!Project::create($_POST['name']);
+		$this->response['created'] = !!Projects::create($_POST['name']);
 	}
 
 	public function deleteProject() {
-		$project = Project::open($_POST['name']);
+		$project = Projects::open($_POST['name']);
 		if( $project ) {
 			$project->delete();
 		}
 	}
 
 	public function downloadProject() {
-		$project = Project::open($_GET['downloadProject']);
+		$project = Projects::open($_GET['downloadProject']);
 		if( $project ) {
 			$zipPath = $project->getPath().'project-all.temp.zip';
 			$project->createZIP($zipPath);
@@ -43,7 +43,7 @@ class AjaxController {
 	}
 
 	public function downloadNode() {
-		$project = Project::open($_GET['project']);
+		$project = Projects::open($_GET['project']);
 		$node = $project->getNode($_GET['downloadNode']);
 
 		if( $node ) {
@@ -56,20 +56,20 @@ class AjaxController {
 	}
 
 	public function addNode() {
-		$project = Project::open($_POST['project']);
+		$project = Projects::open($_POST['project']);
 		if( $project ) {
 			$node = NodeText::create($project->getPath(), $_POST['content']);
 		}
 	}
 
 	public function deleteNode() {
-		$project = Project::open($_POST['project']);
+		$project = Projects::open($_POST['project']);
 		$node = $project->getNode($_POST['node']);
 		$node->delete();
 	}
 
 	public function updateNode() {
-		$project = Project::open($_POST['project']);
+		$project = Projects::open($_POST['project']);
 		$node = $project->getNode($_POST['node']);
 		if( $node instanceof NodeText ) {
 			$node->edit($_POST['content']);
@@ -77,20 +77,20 @@ class AjaxController {
 	}
 
 	public function upload() {
-		$project = Project::open($_POST['project']);
+		$project = Projects::open($_POST['project']);
 		foreach( $_FILES as $file ) {
 			$node = NodeImage::createFromUpload($project->getPath(), $file['tmp_name']);
 		}
 	}
 
 	public function shareProject() {
-		$project = Project::open($_POST['project']);
+		$project = Projects::open($_POST['project']);
 		$key = $project->createSharekey();
 		$this->response['sharekey'] = $key;
 	}
 
 	public function unshareProject() {
-		$project = Project::open($_POST['project']);
+		$project = Projects::open($_POST['project']);
 		$project->removeSharekey();
 	}
 }

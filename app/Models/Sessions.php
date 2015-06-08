@@ -1,6 +1,6 @@
 <?php
 
-class Session {
+class Sessions {
 	protected $sessionName, $instanceId;
 	protected $userName, $userPass;
 
