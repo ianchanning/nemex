@@ -1,9 +1,13 @@
 <?php
 
-require_once(NX_PATH.'lib/project.php');
+namespace Models;
 
+use Vanda\Model;
 
-class Nodes {
+// require_once(NX_PATH.'lib/project.php');
+
+class Nodes extends Model
+{
 	protected $path = null;
 	protected $extension = 'txt';
 

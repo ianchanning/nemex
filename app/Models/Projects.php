@@ -1,10 +1,14 @@
 <?php
 
-require_once(NX_PATH.'lib/node-image.php');
-require_once(NX_PATH.'lib/node-text.php');
+namespace Models;
 
+use Vanda\Model;
 
-class Projects {
+// require_once(NX_PATH.'lib/node-image.php');
+// require_once(NX_PATH.'lib/node-text.php');
+
+class Projects extends Model
+{
 	protected static $dirProtectIndex = '<?php header( "HTTP/1.1 403 forbidden" );';
 	protected static $fileGlob = '*.{md,jpg,jpeg,png,gif}';
 	protected static $titleImageGlob = '*.{jpg,jpeg,png,gif}';

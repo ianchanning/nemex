@@ -1,6 +1,11 @@
 <?php
 
-class Sessions {
+namespace Models;
+
+use Vanda\Model;
+
+class Sessions extends Model
+{
 	protected $sessionName, $instanceId;
 	protected $userName, $userPass;
 

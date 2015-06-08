@@ -10,19 +10,23 @@ class ProjectsController extends Controller
 		$this->session = $session;
 	}
 
-	public function addProject() {
-		$this->response['created'] = !!Projects::create($_POST['name']);
+	public function add() {
+		/**
+		 * ICC 2015-06-08 replace !! with (bool)
+		 * @link http://stackoverflow.com/a/2127324/327074
+		 */
+		$this->response['created'] = (bool) Projects::create($_POST['name']);
 	}
 
-	public function deleteProject() {
+	public function delete() {
 		$project = Projects::open($_POST['name']);
 		if( $project ) {
 			$project->delete();
 		}
 	}
 
-	public function downloadProject() {
-		$project = Projects::open($_GET['downloadProject']);
+	public function download() {
+		$project = Projects::open($_GET['project']);
 		if( $project ) {
 			$zipPath = $project->getPath().'project-all.temp.zip';
 			$project->createZIP($zipPath);
@@ -37,13 +41,13 @@ class ProjectsController extends Controller
 		exit();
 	}
 
-	public function shareProject() {
+	public function share() {
 		$project = Projects::open($_POST['project']);
 		$key = $project->createSharekey();
 		$this->response['sharekey'] = $key;
 	}
 
-	public function unshareProject() {
+	public function unshare() {
 		$project = Projects::open($_POST['project']);
 		$project->removeSharekey();
 	}

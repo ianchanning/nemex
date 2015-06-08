@@ -1,9 +1,14 @@
 <?php
 
-require_once(NX_PATH.'lib/node.php');
-require_once(NX_PATH.'lib/image.php');
+namespace Models;
 
-class NodeImage extends Nodes {
+use Nodes;
+
+// require_once(NX_PATH.'lib/node.php');
+// require_once(NX_PATH.'lib/image.php');
+
+class NodeImage extends Nodes
+{
 	protected $extension = 'jpg';
 	public $type = 'image';
 

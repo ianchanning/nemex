@@ -168,7 +168,7 @@ $(document).ready(function(){
 	// share
 	$('#shareProject').click(function(){
 		var project = $('.activeProject').text();
-		nemexApi('shareProject', {project:project}, function(response){
+		nemexApi('project', 'share', {project:project}, function(response){
 			location.reload();
 		});
 		return false;
@@ -177,7 +177,7 @@ $(document).ready(function(){
 	// unshare
 	$('#unshareProject').click(function(){
 		var project = $('.activeProject').text();
-		nemexApi('unshareProject', {project:project}, function(response){
+		nemexApi('project', 'unshare', {project:project}, function(response){
 			location.reload();
 		});
 		return false;

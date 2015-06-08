@@ -6,9 +6,9 @@ use Vanda\Controller;
 
 class NodesController extends Controller
 {
-	public function downloadNode() {
+	public function download() {
 		$project = Projects::open($_GET['project']);
-		$node = $project->getNode($_GET['downloadNode']);
+		$node = $project->getNode($_GET['download']);
 
 		if( $node ) {
 			header('Content-type: application/octet-stream');
@@ -19,20 +19,20 @@ class NodesController extends Controller
 		exit();
 	}
 
-	public function addNode() {
+	public function add() {
 		$project = Projects::open($_POST['project']);
 		if( $project ) {
 			$node = NodeText::create($project->getPath(), $_POST['content']);
 		}
 	}
 
-	public function deleteNode() {
+	public function delete() {
 		$project = Projects::open($_POST['project']);
 		$node = $project->getNode($_POST['node']);
 		$node->delete();
 	}
 
-	public function updateNode() {
+	public function update() {
 		$project = Projects::open($_POST['project']);
 		$node = $project->getNode($_POST['node']);
 		if( $node instanceof NodeText ) {
