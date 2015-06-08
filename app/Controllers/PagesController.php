@@ -12,4 +12,9 @@ class PagesController extends Controller
         $welcome = __('Welcome to Vanda PHP');
         $this->set(compact('welcome'));
     }
+
+	public function logout() {
+		$this->session->logout();
+	}
+
 }

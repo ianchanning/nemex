@@ -20,8 +20,8 @@ $controller = new AjaxController($session);
 // Downloads may be initiated via GET; everything else is handled through the
 // POST action parameter
 $action = 'invalid';
-if( !empty($_GET['downloadProject']) ) { $action = 'downloadProject'; }
-else if( !empty($_GET['downloadNode']) ) { $action = 'downloadNode'; }
+// if( !empty($_GET['downloadProject']) ) { $action = 'downloadProject'; }
+if( !empty($_GET['a']) ) { $action = $_GET['a']; }
 else if( !empty($_POST['action']) ) { $action = $_POST['action']; }
 
 $func = array($controller, $action);
