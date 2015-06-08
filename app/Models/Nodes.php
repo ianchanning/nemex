@@ -34,7 +34,7 @@ class Nodes extends Model
 		return filemtime($this->path);
 	}
 
-	protected static function getNewName($extension) {
+	protected function getNewName($extension) {
 		return time().'-'.substr(md5(uniqid(rand(), true)),0, 8).'.'.$extension;
 	}
 

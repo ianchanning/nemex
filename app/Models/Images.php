@@ -13,8 +13,8 @@ class Images {
 	public $valid = false;
 	public $exif = null;
 	public $exifRotated = false;
-	
-	
+
+
 	public function __construct( $path ) {
 		list( $this->width, $this->height, $this->type ) = @getImageSize( $path );
 
@@ -25,7 +25,7 @@ class Images {
 				$this->exif = exif_read_data( $path );
 			}
 			$this->rotateToExifOrientation();
-		} 
+		}
 		else if( $this->type == IMAGETYPE_PNG ) {
 			$this->image = imageCreateFromPNG( $path );
 			$this->extension = 'png';
@@ -34,19 +34,19 @@ class Images {
 			$this->image = imageCreateFromGIF( $path );
 			$this->extension = 'gif';
 		}
-		
+
 		if( $this->image ) {
 			$this->valid = true;
 		}
 	}
-	
-	
+
+
 	protected function getThumb( $thumbWidth, $thumbHeight, $sharpen = false ) {
 		if( !$this->image ) { return null; }
-		
+
 		$srcX = 0;
 		$srcY = 0;
-		
+
 		if( ($this->width / $this->height) > ($thumbWidth / $thumbHeight) ) {
 			$zoom = ($this->width / $this->height) / ($thumbWidth / $thumbHeight);
 			$srcX = ($this->width - $this->width / $zoom) / 2;
@@ -57,23 +57,23 @@ class Images {
 			$srcY = ($this->height - $this->height / $zoom) / 2;
 			$this->height = $this->height / $zoom;
 		}
-		
+
 		$thumb = imageCreateTrueColor( $thumbWidth, $thumbHeight );
 		imageCopyResampled($thumb, $this->image, 0, 0, $srcX, $srcY, $thumbWidth, $thumbHeight, $this->width, $this->height);
-		
+
 		if( $sharpen && function_exists('imageconvolution') ) {
 			$sharpenMatrix = array( array(-1,-1,-1), array(-1,16,-1),  array(-1,-1,-1) );
 			imageConvolution( $thumb, $sharpenMatrix, 8, 0 );
 		}
-		
+
 		return $thumb;
 	}
-	
-	
+
+
 	public function writeThumb( $path, $quality, $thumbWidth, $thumbHeight, $sharpen = false, $format = 'jpg' ) {
 		if( !$this->image ) { return false; }
 		$thumbDirName = dirname( $path );
-		
+
 		$thumb = $this->getThumb( $thumbWidth, $thumbHeight, $sharpen );
 		if( $format === 'png' ) {
 			imagePNG( $thumb, $path );
@@ -81,7 +81,7 @@ class Images {
 		else {
 			imageJPEG( $thumb, $path, $quality );
 		}
-		
+
 		imageDestroy( $thumb );
 		return true;
 	}

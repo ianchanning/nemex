@@ -14,19 +14,19 @@ class NodeImage extends Nodes
 
 	public $editable = false;
 
-	public static function open($path) {
+	public function open($path) {
 		return is_file($path)
 			? new self($path)
 			: null;
 	}
 
-	public static function createFromUpload($basePath, $uploadPath) {
+	public function createFromUpload($basePath, $uploadPath) {
 		$image = new Images($uploadPath);
 		if( !$image->valid ) {
 			return null;
 		}
 
-		$targetName = self::getNewName($image->extension);
+		$targetName = $this->getNewName($image->extension);
 		$scaledTargetPath = $basePath.$targetName;
 		$originalTargetPath = $scaledTargetPath;
 
@@ -58,7 +58,7 @@ class NodeImage extends Nodes
 		}
 		setFileMode($originalTargetPath);
 
-		return self::open($scaledTargetPath);
+		return $this->open($scaledTargetPath);
 	}
 
 	protected function getBigPathName() {

@@ -7,7 +7,7 @@ use Vanda\Controller;
 class NodesController extends Controller
 {
 	public function download() {
-		$project = Projects::open($_GET['project']);
+		$project = $this->Projects->open($_GET['project']);
 		$node = $project->getNode($_GET['download']);
 
 		if( $node ) {
@@ -20,20 +20,20 @@ class NodesController extends Controller
 	}
 
 	public function add() {
-		$project = Projects::open($_POST['project']);
+		$project = $this->Projects->open($_POST['project']);
 		if( $project ) {
-			$node = NodeText::create($project->getPath(), $_POST['content']);
+			$node = $this->NodeText->create($project->getPath(), $_POST['content']);
 		}
 	}
 
 	public function delete() {
-		$project = Projects::open($_POST['project']);
+		$project = $this->Projects->open($_POST['project']);
 		$node = $project->getNode($_POST['node']);
 		$node->delete();
 	}
 
 	public function update() {
-		$project = Projects::open($_POST['project']);
+		$project = $this->Projects->open($_POST['project']);
 		$node = $project->getNode($_POST['node']);
 		if( $node instanceof NodeText ) {
 			$node->edit($_POST['content']);
@@ -41,9 +41,9 @@ class NodesController extends Controller
 	}
 
 	public function upload() {
-		$project = Projects::open($_POST['project']);
+		$project = $this->Projects->open($_POST['project']);
 		foreach( $_FILES as $file ) {
-			$node = NodeImage::createFromUpload($project->getPath(), $file['tmp_name']);
+			$node = $this->NodeImage->createFromUpload($project->getPath(), $file['tmp_name']);
 		}
 	}
 

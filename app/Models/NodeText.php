@@ -6,22 +6,23 @@ use Nodes;
 
 // require_once(NX_PATH.'lib/node.php');
 
-class NodeText extends Nodes {
+class NodeText extends Nodes
+{
 	protected $extension = 'md';
 	public $type = 'text';
 
-	public static function open($path) {
+	public function open($path) {
 		return is_file($path)
 			? new self($path)
 			: null;
 	}
 
-	public static function create($basePath, $content) {
-		$path = $basePath.self::getNewName('md');
+	public function create($basePath, $content) {
+		$path = $basePath.$this->getNewName('md');
 		file_put_contents($path, $content);
 		setFileMode($path);
 
-		return self::open($path);
+		return $this->open($path);
 	}
 
 	public function getContent() {
@@ -30,7 +31,7 @@ class NodeText extends Nodes {
 
 	public function edit($content) {
 		// Write the new file and delete the old
-		$newPath = dirname($this->path).'/'.self::getNewName($this->extension);
+		$newPath = dirname($this->path).'/'.$this->getNewName($this->extension);
 
 		if( file_put_contents($newPath, $content) ) {
 			setFileMode($newPath);

@@ -9,16 +9,16 @@ use Vanda\Model;
 
 class Projects extends Model
 {
-	protected static $dirProtectIndex = '<?php header( "HTTP/1.1 403 forbidden" );';
-	protected static $fileGlob = '*.{md,jpg,jpeg,png,gif}';
-	protected static $titleImageGlob = '*.{jpg,jpeg,png,gif}';
-	protected static $sharekeyGlob = '*.sharekey';
+	protected $dirProtectIndex = '<?php header( "HTTP/1.1 403 forbidden" );';
+	protected $fileGlob = '*.{md,jpg,jpeg,png,gif}';
+	protected $titleImageGlob = '*.{jpg,jpeg,png,gif}';
+	protected $sharekeyGlob = '*.sharekey';
 
 	protected $name = null;
 	protected $sharekey = null;
 
-	public static function create($name) {
-		$path = self::sanitizePath($name);
+	public function create($name) {
+		$path = $this->sanitizePath($name);
 
 		// Create the project directory, the subdirectory for big images
 		// and a dummy index.php to prevent dir listing
@@ -27,22 +27,22 @@ class Projects extends Model
 
 		mkdir($path.CONFIG::IMAGE_BIG_PATH);
 		setFileMode($path.CONFIG::IMAGE_BIG_PATH);
-		
-		file_put_contents($path.'index.php', self::$dirProtectIndex);
+
+		file_put_contents($path.'index.php', $this->$dirProtectIndex);
 		setFileMode($path.'index.php');
 
-		return Projects::open($name);
+		return $this->Projects->open($name);
 	}
 
-	public static function open($name) {
-		$path = self::sanitizePath($name);
+	public function open($name) {
+		$path = $this->sanitizePath($name);
 		return is_dir($path)
 			? new Projects($path)
 			: null;
 	}
 
-	public static function openWithSharekey($name, $sharekey) {
-		$project = self::open($name);
+	public function openWithSharekey($name, $sharekey) {
+		$project = $this->open($name);
 
 		// Make sure the project is shared and the sharekey matches
 		if( $project && $project->isShared() && $project->getSharekey() == $sharekey ) {
@@ -55,7 +55,7 @@ class Projects extends Model
 		$this->path = $path;
 	}
 
-	protected static function sanitizePath($name) {
+	protected function sanitizePath($name) {
 		$name = iconv('UTF-8', 'ASCII//IGNORE', $name);
 		$name = preg_replace('/\W+/', '-', $name);
 		return CONFIG::PROJECTS_PATH.$name.'/';
@@ -70,9 +70,9 @@ class Projects extends Model
 	}
 
 	public function getTitleImage() {
-		$images = saneGlob($this->path.self::$titleImageGlob, GLOB_BRACE);
+		$images = saneGlob($this->path.$this->$titleImageGlob, GLOB_BRACE);
 		if( !empty($images) ) {
-			rsort($images);	
+			rsort($images);
 			return "url('".$this->path.basename($images[0])."')";
 		}
 		else {
@@ -99,10 +99,10 @@ class Projects extends Model
 	public function getSharekey() {
 		// Load sharekey if we didn't have one already
 		if( empty($this->sharekey) ) {
-			$sharekeys = saneGlob($this->path.self::$sharekeyGlob, GLOB_BRACE);
+			$sharekeys = saneGlob($this->path.$this->$sharekeyGlob, GLOB_BRACE);
 			if( !empty($sharekeys) && preg_match('/(\w{32})\.sharekey$/', $sharekeys[0], $match) ) {
 				$this->sharekey = $match[1];
-			}	
+			}
 		}
 
 		return $this->sharekey;
@@ -135,7 +135,7 @@ class Projects extends Model
 			return NodeImage::open($this->path.$name);
 		}
 		else if( preg_match('/\.md$/i', $name) ) {
-			return NodeText::open($this->path.$name);
+			return $this->NodeText->open($this->path.$name);
 		}
 		return null;
 	}
@@ -153,7 +153,7 @@ class Projects extends Model
 	}
 
 	protected function getFiles() {
-		$files = saneGlob($this->path.self::$fileGlob, GLOB_BRACE);
+		$files = saneGlob($this->path.$this->$fileGlob, GLOB_BRACE);
 		rsort($files);
 		return $files;
 	}
@@ -171,10 +171,10 @@ class Projects extends Model
 		return false;
 	}
 
-	public static function getProjectList() {
+	public function getProjectList() {
 		$projects = array();
 		foreach( saneGlob(CONFIG::PROJECTS_PATH.'*', GLOB_ONLYDIR) as $dir ) {
-			$project = self::open( basename($dir) );
+			$project = $this->open( basename($dir) );
 			if( $project ) { // Make sure the project could be opened
 				$projects[] = $project;
 			}
