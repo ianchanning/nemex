@@ -1,16 +1,14 @@
-<?php include(NX_PATH.'media/templates/head.html.php'); ?>
-
 <div class="header">
 	<span><?php p($project->getName());?></span>
-		
+
 </div>
 
 <div id="editmenu"></div>
 <div class="navigation">
 	<a class="index" href="?"><img src="media/img/back.svg" /></a>
-	<span class="share_project">	
+	<span class="share_project">
 		<?php if($project->isShared()) {?>
-			
+
 			<a class="publicUrl" href="?<?php p($project->getName().'&'.$project->getSharekey());?>">
 				share this url
 			</a>
@@ -20,9 +18,9 @@
 		<?php } ?>
 	</span>
 
-	
+
 </div>
-		
+
 <progress id="uploadprogress" min="0" max="100" value="0" >0</progress>
 <div id="project" class="pcontent">
 	<article>
@@ -39,7 +37,7 @@
 	</article>
 
 	<div class="activeProject"><?php p($project->getName());?></div>
-	
+
 	<div id="newMarkdown" class="row">
 		<div class="c3 edit-mode">
 			<p class="date">preview</p>
@@ -75,7 +73,7 @@
 							<img src="<?php p($node->getPath());?>"/>
 						</a>
 					<?php } ?>
-					
+
 					<div class="actions">
 						<?php if( $node->editable ) { ?>
 							<div class="edit-big" data-target="r"></div>
@@ -97,6 +95,3 @@
 
 	<?php } ?>
 </div>
-
-<?php include(NX_PATH.'media/templates/foot.html.php'); ?>
-

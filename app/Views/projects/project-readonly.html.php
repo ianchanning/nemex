@@ -1,9 +1,7 @@
-<?php include(NX_PATH.'media/templates/head.html.php'); ?>
-
 <div class="header">
 	<span><?php p($project->getName());?></span>
 </div>
-		
+
 <progress id="uploadprogress" min="0" max="100" value="0" >0</progress>
 <div id="project" class="pcontent">
 
@@ -31,6 +29,3 @@
 
 	<?php } ?>
 </div>
-
-<?php include(NX_PATH.'media/templates/foot.html.php'); ?>
-

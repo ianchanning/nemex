@@ -1,9 +1,12 @@
 <?php
 define( 'NX_PATH', realpath('./').'/' );
 
-require_once(NX_PATH.'config.php');
-require_once(NX_PATH.'lib/utils.php');
+// require_once(NX_PATH.'config.php');
+use \Config\config;
+// require_once(NX_PATH.'lib/utils.php');
+use \utils_vanda;
 require_once(NX_PATH.'lib/session.php');
+use \Models\Sessions;
 require_once(NX_PATH.'lib/ajax-controller.php');
 
 header( 'Content-type: text/plain; Charset=UTF-8' );
