@@ -20,3 +20,13 @@ use Vanda\Router;
 
 $router = new Router();
 $router->dispatch();
+
+/**
+ * Nemex index.php code
+ */
+define( 'NX_PATH', realpath('./').'/' );
+
+use \Config\config;
+use utils_vanda;
+
+echo json_encode($controllerObj->response);

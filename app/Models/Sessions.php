@@ -9,7 +9,7 @@ class Sessions extends Model
 	protected $sessionName, $instanceId;
 	protected $userName, $userPass;
 
-	public function __construct($sessionName, $instanceId, $userName, $userPass) {
+	public function initialise($sessionName, $instanceId, $userName, $userPass) {
 		$this->sessionName = $sessionName;
 		$this->instanceId = md5($instanceId);
 		$this->userName = $userName;
@@ -25,8 +25,8 @@ class Sessions extends Model
 
 	public function login($loginName, $loginPass) {
 		if(
-			$loginName === $this->userName && 
-			$loginPass === $this->userPass 
+			$loginName === $this->userName &&
+			$loginPass === $this->userPass
 		) {
 			$_SESSION[$this->sessionName] = $this->instanceId;
 		}

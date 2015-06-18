@@ -1,5 +1,5 @@
-<?php include 'head.html.php'; ?>
+<?php include 'default.head.php'; ?>
 
     <?php echo $contentForLayout; ?>
 
-<?php include 'foot.html.php'; ?>
+<?php include 'default.foot.php'; ?>

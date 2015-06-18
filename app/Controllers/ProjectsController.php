@@ -6,8 +6,37 @@ use Vanda\Controller;
 
 class ProjectsController extends Controller
 {
-	public function __construct($session) {
-		$this->session = $session;
+
+	public function __construct($modelName = null) {
+		parent::__construct($modelName);
+		$this->loadModel('Sessions');
+		$this->Sessions->initialise('nemex', NX_PATH, CONFIG::USER, CONFIG::PASSWORD);
+	}
+
+	public function index() {
+		$projects = $this->Projects->getProjectList();
+        $this->set(compact('projects'));
+	}
+
+	public function readonly() {
+		$get = array_keys($_GET);
+		$projectName = $get[0];
+		$sharekey = $get[1];
+
+		$project = $this->Projects->openWithSharekey($projectName, $sharekey);
+		if ( $project ) {
+			$nodes = $this->Projects->getNodes();
+	        $this->set(compact('nodes', 'project'));
+		}
+	}
+
+	public function view() {
+		$projectName = key($_GET);
+		$project = $this->Projects->open($projectName);
+		if ( $project ) {
+			$nodes = $this->Projects->getNodes();
+			$this->set(compact('nodes', 'project'));
+		}
 	}
 
 	public function add() {
@@ -20,25 +49,24 @@ class ProjectsController extends Controller
 
 	public function delete() {
 		$project = $this->Projects->open($_POST['name']);
-		if( $project ) {
+		if ( $project ) {
 			$project->delete();
 		}
 	}
 
 	public function download() {
 		$project = $this->Projects->open($_GET['project']);
-		if( $project ) {
+		if ( $project ) {
 			$zipPath = $project->getPath().'project-all.temp.zip';
 			$project->createZIP($zipPath);
-			header("Content-type: application/zip"); 
+			header("Content-type: application/zip");
 			header("Content-Disposition: attachment; filename=".$project->getName().".zip");
 			header("Content-length: " . filesize($zipPath));
-			header("Pragma: no-cache"); 
-			header("Expires: 0"); 
+			header("Pragma: no-cache");
+			header("Expires: 0");
 			readfile($zipPath);
 			unlink($zipPath);
 		}
-		exit();
 	}
 
 	public function share() {
@@ -51,4 +79,5 @@ class ProjectsController extends Controller
 		$project = $this->Projects->open($_POST['project']);
 		$project->removeSharekey();
 	}
+
 }
