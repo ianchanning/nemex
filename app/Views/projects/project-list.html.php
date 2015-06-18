@@ -41,7 +41,7 @@
 
 	<div class="navigation">
 		<a id="logoutButton" class="index" href="#">
-			<img src="media/img/logout.svg"/>
+			<img src="/app/webroot/assets/img/logout.svg"/>
 		</a>
 	</div>
 </div>
