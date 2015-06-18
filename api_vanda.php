@@ -5,7 +5,7 @@ define( 'NX_PATH', realpath('./').'/' );
 use \Config\config;
 // require_once(NX_PATH.'lib/utils.php');
 use \utils_vanda;
-require_once(NX_PATH.'lib/session.php');
+// require_once(NX_PATH.'lib/session.php');
 use \Models\Sessions;
 require_once(NX_PATH.'lib/ajax-controller.php');
 
