@@ -30,16 +30,16 @@ $.fn.serializeObject = function() {
 };
 
 
-var nemexApi = function(action, data, callback, errback ) {
+var nemexApi = function(view, action, data, callback, errback ) {
 	// Check if data is a (jq wrapped?) form element
-	if( 
+	if(
 		data instanceof HTMLFormElement ||
 		((data instanceof $) && data.is('form'))
-	) { 
-		data = $(data).serializeObject(); 
+	) {
+		data = $(data).serializeObject();
 	}
-	data.action = action;
-	$.ajax({type: 'POST', url: 'api.php', success: callback, error: (errback||null), dataType: 'json', data: data});
+	// data.action = action;
+	$.ajax({type: 'POST', url: 'api.php?v='+view+'&a='+action, success: callback, error: (errback||null), dataType: 'json', data: data});
 };
 
 
@@ -65,9 +65,9 @@ $(document).ready(function(){
 
 	$('textarea').autosize();
 
-	// Convert all markdown texts to html, but save the markdown source 
+	// Convert all markdown texts to html, but save the markdown source
 	// in a data attribute
-	
+
 	$('.markdown').each(function(){
 		var el = $(this);
 		var source = el.text();
@@ -86,17 +86,17 @@ $(document).ready(function(){
 			function(){
 				// not editable, or not in edit mode?
 				if( !$(this).find('.c3edit').length || $(this).find('.c3edit').is(':hidden') ) {
-					$(this).find('.c3 .actions').css('visibility', 'visible'); 
+					$(this).find('.c3 .actions').css('visibility', 'visible');
 				}
 			},
-			function(){ 
-				$(this).find('.c3 .actions').css('visibility', 'hidden'); 
+			function(){
+				$(this).find('.c3 .actions').css('visibility', 'hidden');
 			}
 		);
 	}
-	
+
 	$(".project-list-item").hover(function(){
-		if(!mobile) { 
+		if(!mobile) {
 			$(this).children('.p_actions').visibilityToggle();
 		}
 	});
@@ -115,7 +115,7 @@ $(document).ready(function(){
 		$('#newMarkdown').slideToggle();
 		$('#newMarkdown').children(".c3edit").children(".editareafield").val('');
 		$('#newMarkdown').children(".c3").children(".content").html('');
-		$('#newMarkdown').children(".c3edit").children(".editareafield").trigger('autosize.resize');	
+		$('#newMarkdown').children(".c3edit").children(".editareafield").trigger('autosize.resize');
 	});
 
 	$(".discardAdd").click(function() {
@@ -126,7 +126,10 @@ $(document).ready(function(){
 	});
 
 	$('#logoutButton').click(function(){
-		nemexApi('logout', {}, function(response){
+		nemexApi('pages', 'logout', {}, function(response){
+			location.reload();
+		}, function(response){
+			alert('error!');
 			location.reload();
 		});
 		return false;
@@ -158,7 +161,7 @@ $(document).ready(function(){
 	$('.p_download').click(function(e){
 		var name = $(this).parents('.project-list-item').data('name');
 		window.location.href = 'api.php?v=projects&a=download&project='+encodeURIComponent(name);
-		return false;	
+		return false;
 	});
 
 	$('#markdownhelp').click(function(e) {
@@ -187,10 +190,10 @@ $(document).ready(function(){
 	$('.download-big').click(function(){
 		var nodeName = $(this).parents('.row').data('name');
 		var projectName = $('.activeProject').text();
-		window.location.href = 
+		window.location.href =
 			'api.php?downloadNode='+encodeURIComponent(nodeName)+
 			'&project='+encodeURIComponent(projectName);
-		return false;	
+		return false;
 	});
 
 	// add node
@@ -210,9 +213,9 @@ $(document).ready(function(){
 		$node.find('.markdown').html( markdownConverter.makeHtml(source) );
 		$node.find('.c3').toggleClass('edit-mode');
 		$node.find('.c3edit').toggle();
-		
+
 		if( mobile ) {
-			$node.find('.snap-drawers').visible();	
+			$node.find('.snap-drawers').visible();
 			$node.find('.actions').invisible();
 		}
 	});
@@ -231,7 +234,7 @@ $(document).ready(function(){
 		});
 	});
 
-	// delete 
+	// delete
 	$('.delete, .delete-big').click(function(){
 		var nodeName = $(this).parents('.row').data('name');
 		var projectName = $('.activeProject').text();
@@ -278,7 +281,7 @@ $(document).ready(function(){
 				dnd: 'draggable' in document.createElement('span'),
 				formdata: !!window.FormData,
 				progress: "upload" in new XMLHttpRequest
-			}, 
+			},
 		support = {
 			filereader: document.getElementById('filereader'),
 			formdata: document.getElementById('formdata'),
@@ -295,7 +298,7 @@ $(document).ready(function(){
 		"filereader formdata progress".split(' ').forEach(function (api) {
 			if (tests[api] === false) {
 				support[api].className = 'fail';
-			} 
+			}
 			else {
 				// FFS. I could have done el.hidden = true, but IE doesn't support
 				// hidden, so I tried to create a polyfill that would extend the
@@ -315,7 +318,7 @@ $(document).ready(function(){
 
 			};
 			reader.readAsDataURL(file);
-		} 
+		}
 		else {
 			holder.innerHTML += '<p>Uploaded ' + file.name + ' ' + (file.size ? (file.size/1024|0) + 'K' : '') + '</p>';
 		}
@@ -344,11 +347,11 @@ $(document).ready(function(){
 				var complete = (event.loaded / event.total * 100 | 0);
 				progress.value = progress.innerHTML = complete;
 			}
-		}	
+		}
 		xhr.send(formData);
 	}
 
-	if( tests.dnd ) { 
+	if( tests.dnd ) {
 		holder.ondragover = function () { this.className = 'hover'; return false; };
 		holder.ondragend = function () { this.className = ''; return false; };
 		holder.ondrop = function (e) {
@@ -356,7 +359,7 @@ $(document).ready(function(){
 			e.preventDefault();
 			readfiles(e.dataTransfer.files);
 		}
-		
+
 		$("#uup").change(function(e){
 			e.preventDefault();
 			readfiles(e.target.files);
@@ -365,7 +368,7 @@ $(document).ready(function(){
 			$('#newMarkdown').fadeToggle("fast", "linear");
 		});
 
-	} 
+	}
 	else {
 		fileupload.className = 'hidden';
 		fileupload.querySelector('input').onchange = function () {

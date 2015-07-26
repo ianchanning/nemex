@@ -2,17 +2,8 @@
 
 namespace Controllers;
 
-use Vanda\Controller;
-use \Config\Config;
-
-class PagesController extends Controller
+class PagesController extends AppController
 {
-
-	public function __construct($modelName = null) {
-        parent::__construct($modelName);
-        $this->loadModel('Sessions');
-		$this->Sessions->initialise('nemex', NX_PATH, Config::USER, Config::PASSWORD);
-	}
 
     public function index()
     {
@@ -21,13 +12,15 @@ class PagesController extends Controller
     }
 
 	public function logout() {
+		$this->layout = 'blank';
 		$this->Sessions->logout();
+		// $this->redirect('projects','index');
 	}
 
 	public function login() {
 
 		// Attempting to login?
-		if( !empty($_POST['username']) && !empty($_POST['password']) ) {
+		if ( !empty($_POST['username']) && !empty($_POST['password']) ) {
 			if ( $this->Sessions->login($_POST['username'], $_POST['password']) ) {
 				$this->redirect('projects','index');
 			}
@@ -35,11 +28,11 @@ class PagesController extends Controller
 
 		// Not authed for this nemex? Maybe we have a sharekey for the project?
 		// If not, just show the login form
-		if ( !$session->isAuthed() ) {
+		/*if ( !$this->Sessions->isAuthed() ) {
 			if ( count($_GET) == 2 ) {
 				$this->redirect('projects','readonly');
 			}
-		}
+		}*/
 	}
 
 }

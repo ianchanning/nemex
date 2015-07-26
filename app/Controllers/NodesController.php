@@ -2,9 +2,7 @@
 
 namespace Controllers;
 
-use Vanda\Controller;
-
-class NodesController extends Controller
+class NodesController extends AppController
 {
 
 	public function download() {

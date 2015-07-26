@@ -2,8 +2,6 @@
 
 namespace Models;
 
-use Vanda\Model;
-
 class Images {
 	protected $image = null;
 	public $width = 0;

@@ -2,9 +2,7 @@
 
 namespace Models;
 
-use Vanda\Model;
-
-class Sessions extends Model
+class Sessions extends AppModel
 {
 	protected $sessionName, $instanceId;
 	protected $userName, $userPass;

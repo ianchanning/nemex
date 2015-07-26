@@ -2,16 +2,8 @@
 
 namespace Controllers;
 
-use Vanda\Controller;
-
-class ProjectsController extends Controller
+class ProjectsController extends AppController
 {
-
-	public function __construct($modelName = null) {
-		parent::__construct($modelName);
-		$this->loadModel('Sessions');
-		$this->Sessions->initialise('nemex', NX_PATH, Config::USER, Config::PASSWORD);
-	}
 
 	public function index() {
 		$projects = $this->Projects->getProjectList();

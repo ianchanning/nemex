@@ -2,20 +2,22 @@
 
 namespace Models;
 
-use Vanda\Model;
-
+use Config\Config;
 // require_once(NX_PATH.'lib/node-image.php');
 // require_once(NX_PATH.'lib/node-text.php');
 
-class Projects extends Model
+class Projects extends AppModel
 {
 	protected $dirProtectIndex = '<?php header( "HTTP/1.1 403 forbidden" );';
 	protected $fileGlob = '*.{md,jpg,jpeg,png,gif}';
 	protected $titleImageGlob = '*.{jpg,jpeg,png,gif}';
 	protected $sharekeyGlob = '*.sharekey';
 
-	protected $name = null;
 	protected $sharekey = null;
+
+	public function __construct($path) {
+		$this->path = $path;
+	}
 
 	public function create($name) {
 		$path = $this->sanitizePath($name);
@@ -49,10 +51,6 @@ class Projects extends Model
 			return $project;
 		}
 		return null;
-	}
-
-	protected function __construct($path) {
-		$this->path = $path;
 	}
 
 	protected function sanitizePath($name) {

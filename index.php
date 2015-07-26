@@ -16,6 +16,8 @@
 
 require_once 'bootstrap.php';
 
+use Config\Config;
+
 use Vanda\Router;
 
 /**
@@ -23,8 +25,6 @@ use Vanda\Router;
  * @link http://php.net/manual/en/language.namespaces.importing.php
  *
  */
-use \Config\Config;
-
 // not required as it does nothing - file gets autoloaded
 // use utils_vanda;
 

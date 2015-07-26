@@ -1,5 +1,5 @@
 <?php
-date_default_timezone_set('UTC');
+// date_default_timezone_set('UTC');
 
 /**
  * Autoload the app classes
@@ -20,6 +20,7 @@ require_once __DIR__ . '/vendor/autoload.php';
  */
 require_once __DIR__ . '/vendor/ianchanning/vandaphp-core/src/bootstrap.php';
 
+require_once __DIR__ . '/app/utils_vanda.php';
 // This is started in Models/Sessions.php
 // session_start();
 
@@ -29,3 +30,4 @@ require_once __DIR__ . '/vendor/ianchanning/vandaphp-core/src/bootstrap.php';
 define('DS', DIRECTORY_SEPARATOR);
 
 define('NX_PATH', dirname(__FILE__).DS);
+define('APP_PATH', NX_PATH.'app'.DS);

@@ -2,8 +2,6 @@
 
 namespace Models;
 
-use Nodes;
-
 // require_once(NX_PATH.'lib/node.php');
 // require_once(NX_PATH.'lib/image.php');
 

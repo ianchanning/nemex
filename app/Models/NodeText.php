@@ -2,10 +2,6 @@
 
 namespace Models;
 
-use Nodes;
-
-// require_once(NX_PATH.'lib/node.php');
-
 class NodeText extends Nodes
 {
 	protected $extension = 'md';
