@@ -13,7 +13,7 @@ class AppController extends Controller
         $this->loadModel('Sessions');
 		$this->Sessions->initialise('nemex', NX_PATH, Config::USER, Config::PASSWORD);
 		if (!$this->auth($modelName) && !$this->Sessions->isAuthed()) {
-			$this->redirect('pages','index');
+			$this->redirect('pages','login');
 		}
 	}
 
