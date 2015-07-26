@@ -1,6 +1,6 @@
 <?php
 
-class CONFIG {
+class Config {
 	const USER = 'nemex';
 	const PASSWORD = 'io';
 
@@ -18,10 +18,10 @@ class CONFIG {
 
 	// The TIMEZONE setting is only used if there's no explicit
 	// timezone set in the php.ini
-	const TIMEZONE = 'US/Pacific'; 
+	const TIMEZONE = 'US/Pacific';
 }
 
 // Set the timezone if we don't have one
 if( @date_default_timezone_get() ) {
-	date_default_timezone_set(CONFIG::TIMEZONE);
+	date_default_timezone_set(Config::TIMEZONE);
 }

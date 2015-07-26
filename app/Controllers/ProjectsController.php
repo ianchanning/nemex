@@ -10,7 +10,7 @@ class ProjectsController extends Controller
 	public function __construct($modelName = null) {
 		parent::__construct($modelName);
 		$this->loadModel('Sessions');
-		$this->Sessions->initialise('nemex', NX_PATH, CONFIG::USER, CONFIG::PASSWORD);
+		$this->Sessions->initialise('nemex', NX_PATH, Config::USER, Config::PASSWORD);
 	}
 
 	public function index() {

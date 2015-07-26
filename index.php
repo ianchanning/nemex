@@ -18,15 +18,17 @@ require_once 'bootstrap.php';
 
 use Vanda\Router;
 
+/**
+ * Same as `use \Config\config as config`
+ * @link http://php.net/manual/en/language.namespaces.importing.php
+ *
+ */
+use \Config\Config;
+
+// not required as it does nothing - file gets autoloaded
+// use utils_vanda;
+
 $router = new Router();
 $router->dispatch();
 
-/**
- * Nemex index.php code
- */
-define( 'NX_PATH', realpath('./').'/' );
-
-use \Config\config;
-use utils_vanda;
-
-echo json_encode($controllerObj->response);
+// echo json_encode($controllerObj->response);

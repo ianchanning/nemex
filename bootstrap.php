@@ -1,5 +1,4 @@
 <?php
-
 date_default_timezone_set('UTC');
 
 /**
@@ -21,4 +20,12 @@ require_once __DIR__ . '/vendor/autoload.php';
  */
 require_once __DIR__ . '/vendor/ianchanning/vandaphp-core/src/bootstrap.php';
 
-session_start();
+// This is started in Models/Sessions.php
+// session_start();
+
+/**
+ * Nemex index.php code
+ */
+define('DS', DIRECTORY_SEPARATOR);
+
+define('NX_PATH', dirname(__FILE__).DS);

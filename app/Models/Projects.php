@@ -25,8 +25,8 @@ class Projects extends Model
 		mkdir($path);
 		setFileMode($path);
 
-		mkdir($path.CONFIG::IMAGE_BIG_PATH);
-		setFileMode($path.CONFIG::IMAGE_BIG_PATH);
+		mkdir($path.Config::IMAGE_BIG_PATH);
+		setFileMode($path.Config::IMAGE_BIG_PATH);
 
 		file_put_contents($path.'index.php', $this->$dirProtectIndex);
 		setFileMode($path.'index.php');
@@ -58,7 +58,7 @@ class Projects extends Model
 	protected function sanitizePath($name) {
 		$name = iconv('UTF-8', 'ASCII//IGNORE', $name);
 		$name = preg_replace('/\W+/', '-', $name);
-		return CONFIG::PROJECTS_PATH.$name.'/';
+		return Config::PROJECTS_PATH.$name.'/';
 	}
 
 	public function getPath() {
@@ -87,7 +87,7 @@ class Projects extends Model
 		unlink($this->path.'index.php');
 		$this->removeSharekey();
 
-		rmdir($this->path.CONFIG::IMAGE_BIG_PATH);
+		rmdir($this->path.Config::IMAGE_BIG_PATH);
 		rmdir($this->path);
 	}
 
@@ -173,7 +173,7 @@ class Projects extends Model
 
 	public function getProjectList() {
 		$projects = array();
-		foreach( saneGlob(CONFIG::PROJECTS_PATH.'*', GLOB_ONLYDIR) as $dir ) {
+		foreach( saneGlob(Config::PROJECTS_PATH.'*', GLOB_ONLYDIR) as $dir ) {
 			$project = $this->open( basename($dir) );
 			if( $project ) { // Make sure the project could be opened
 				$projects[] = $project;
