@@ -1,5 +1,6 @@
 <?php
 
+use Config\Config;
 // shorthand escaped print function for use in templates
 function p($string) {
 	echo htmlspecialchars($string);

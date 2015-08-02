@@ -20,6 +20,7 @@
         }
     ],
     "require": {
-        "ianchanning/vandaphp-core": "dev-master"
+        "ianchanning/vandaphp-core": "dev-master",
+        "firephp/firephp-core": "dev-master"
     }
 }

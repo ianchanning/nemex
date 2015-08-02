@@ -21,7 +21,6 @@ class Projects extends AppModel
 
 	public function create($name) {
 		$path = $this->sanitizePath($name);
-
 		// Create the project directory, the subdirectory for big images
 		// and a dummy index.php to prevent dir listing
 		mkdir($path);
@@ -30,7 +29,7 @@ class Projects extends AppModel
 		mkdir($path.Config::IMAGE_BIG_PATH);
 		setFileMode($path.Config::IMAGE_BIG_PATH);
 
-		file_put_contents($path.'index.php', $this->$dirProtectIndex);
+		file_put_contents($path.'index.php', $this->dirProtectIndex);
 		setFileMode($path.'index.php');
 
 		return $this->Projects->open($name);
@@ -56,7 +55,7 @@ class Projects extends AppModel
 	protected function sanitizePath($name) {
 		$name = iconv('UTF-8', 'ASCII//IGNORE', $name);
 		$name = preg_replace('/\W+/', '-', $name);
-		return Config::PROJECTS_PATH.$name.'/';
+		return dirname(__FILE__) . DIRECTORY_SEPARATOR . Config::PROJECTS_PATH.$name.DIRECTORY_SEPARATOR;
 	}
 
 	public function getPath() {
@@ -68,7 +67,7 @@ class Projects extends AppModel
 	}
 
 	public function getTitleImage() {
-		$images = saneGlob($this->path.$this->$titleImageGlob, GLOB_BRACE);
+		$images = saneGlob($this->path.$this->titleImageGlob, GLOB_BRACE);
 		if( !empty($images) ) {
 			rsort($images);
 			return "url('".$this->path.basename($images[0])."')";
@@ -97,7 +96,7 @@ class Projects extends AppModel
 	public function getSharekey() {
 		// Load sharekey if we didn't have one already
 		if( empty($this->sharekey) ) {
-			$sharekeys = saneGlob($this->path.$this->$sharekeyGlob, GLOB_BRACE);
+			$sharekeys = saneGlob($this->path.$this->sharekeyGlob, GLOB_BRACE);
 			if( !empty($sharekeys) && preg_match('/(\w{32})\.sharekey$/', $sharekeys[0], $match) ) {
 				$this->sharekey = $match[1];
 			}
@@ -130,7 +129,7 @@ class Projects extends AppModel
 
 	public function getNode($name) {
 		if( preg_match('/\.(jpg|jpeg|png|gif)$/i', $name) ) {
-			return NodeImage::open($this->path.$name);
+			return $this->NodeImage->open($this->path.$name);
 		}
 		else if( preg_match('/\.md$/i', $name) ) {
 			return $this->NodeText->open($this->path.$name);
@@ -151,7 +150,7 @@ class Projects extends AppModel
 	}
 
 	protected function getFiles() {
-		$files = saneGlob($this->path.$this->$fileGlob, GLOB_BRACE);
+		$files = saneGlob($this->path.$this->fileGlob, GLOB_BRACE);
 		rsort($files);
 		return $files;
 	}

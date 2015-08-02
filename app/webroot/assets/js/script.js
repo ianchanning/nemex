@@ -39,7 +39,7 @@ var nemexApi = function(view, action, data, callback, errback ) {
 		data = $(data).serializeObject();
 	}
 	// data.action = action;
-	$.ajax({type: 'POST', url: 'api.php?v='+view+'&a='+action, success: callback, error: (errback||null), dataType: 'json', data: data});
+	$.ajax({type: 'POST', url: 'index.php?v='+view+'&a='+action, success: callback, error: (errback||null), dataType: 'json', data: data});
 };
 
 
@@ -160,7 +160,7 @@ $(document).ready(function(){
 	// download project
 	$('.p_download').click(function(e){
 		var name = $(this).parents('.project-list-item').data('name');
-		window.location.href = 'api.php?v=projects&a=download&project='+encodeURIComponent(name);
+		window.location.href = 'index.php?v=projects&a=download&project='+encodeURIComponent(name);
 		return false;
 	});
 
@@ -191,7 +191,7 @@ $(document).ready(function(){
 		var nodeName = $(this).parents('.row').data('name');
 		var projectName = $('.activeProject').text();
 		window.location.href =
-			'api.php?downloadNode='+encodeURIComponent(nodeName)+
+			'index.php?downloadNode='+encodeURIComponent(nodeName)+
 			'&project='+encodeURIComponent(projectName);
 		return false;
 	});
@@ -336,7 +336,7 @@ $(document).ready(function(){
 
 		// now post a new XHR request
 		var xhr = new XMLHttpRequest();
-		xhr.open('POST', 'api.php');
+		xhr.open('POST', 'index.php');
 		xhr.onload = function(data) {
 			progress.value = progress.innerHTML = 100;
 			location.reload();
