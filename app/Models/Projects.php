@@ -17,6 +17,9 @@ class Projects extends AppModel
 
 	public function __construct($path) {
 		$this->path = $path;
+
+		$this->linkModel('NodeText');
+		$this->linkModel('NodeImages');
 	}
 
 	public function create($name) {
@@ -32,7 +35,7 @@ class Projects extends AppModel
 		file_put_contents($path.'index.php', $this->dirProtectIndex);
 		setFileMode($path.'index.php');
 
-		return $this->Projects->open($name);
+		return $this->open($name);
 	}
 
 	public function open($name) {
@@ -46,7 +49,7 @@ class Projects extends AppModel
 		$project = $this->open($name);
 
 		// Make sure the project is shared and the sharekey matches
-		if( $project && $project->isShared() && $project->getSharekey() == $sharekey ) {
+		if ( $project && $project->isShared() && $project->getSharekey() == $sharekey ) {
 			return $project;
 		}
 		return null;
@@ -68,17 +71,16 @@ class Projects extends AppModel
 
 	public function getTitleImage() {
 		$images = saneGlob($this->path.$this->titleImageGlob, GLOB_BRACE);
-		if( !empty($images) ) {
+		if ( !empty($images) ) {
 			rsort($images);
 			return "url('".$this->path.basename($images[0])."')";
-		}
-		else {
+		} else {
 			return 'none';
 		}
 	}
 
 	public function delete() {
-		foreach( $this->getNodes() as $node ) {
+		foreach ( $this->getNodes() as $node ) {
 			$node->delete();
 		}
 		unlink($this->path.'index.php');
@@ -95,9 +97,9 @@ class Projects extends AppModel
 
 	public function getSharekey() {
 		// Load sharekey if we didn't have one already
-		if( empty($this->sharekey) ) {
+		if ( empty($this->sharekey) ) {
 			$sharekeys = saneGlob($this->path.$this->sharekeyGlob, GLOB_BRACE);
-			if( !empty($sharekeys) && preg_match('/(\w{32})\.sharekey$/', $sharekeys[0], $match) ) {
+			if ( !empty($sharekeys) && preg_match('/(\w{32})\.sharekey$/', $sharekeys[0], $match) ) {
 				$this->sharekey = $match[1];
 			}
 		}
@@ -107,7 +109,7 @@ class Projects extends AppModel
 
 	public function removeSharekey() {
 		$key = $this->getSharekey();
-		if( !empty($key) ) {
+		if ( !empty($key) ) {
 			unlink($this->path.$key.'.sharekey');
 		}
 		$this->sharekey = null;
@@ -128,10 +130,10 @@ class Projects extends AppModel
 	}
 
 	public function getNode($name) {
-		if( preg_match('/\.(jpg|jpeg|png|gif)$/i', $name) ) {
-			return $this->NodeImage->open($this->path.$name);
+		if ( preg_match('/\.(jpg|jpeg|png|gif)$/i', $name) ) {
+			return $this->NodeImages->open($this->path.$name);
 		}
-		else if( preg_match('/\.md$/i', $name) ) {
+		else if ( preg_match('/\.md$/i', $name) ) {
 			return $this->NodeText->open($this->path.$name);
 		}
 		return null;
@@ -139,7 +141,7 @@ class Projects extends AppModel
 
 	public function getNodes() {
 		$nodes = array();
-		foreach( $this->getFiles() as $file ) {
+		foreach ( $this->getFiles() as $file ) {
 			$nodes[] = $this->getNode(basename($file));
 		}
 		return $nodes;
@@ -157,8 +159,8 @@ class Projects extends AppModel
 
 	public function createZIP($zipPath) {
 		$zip = new ZipArchive;
-		if( $zip->open($zipPath, ZipArchive::CREATE) ) {
-			foreach( $this->getNodes() as $node ) {
+		if ( $zip->open($zipPath, ZipArchive::CREATE) ) {
+			foreach ( $this->getNodes() as $node ) {
 				$zip->addFile($node->getOriginalPath(), $node->getName());
 			}
 
@@ -170,9 +172,9 @@ class Projects extends AppModel
 
 	public function getProjectList() {
 		$projects = array();
-		foreach( saneGlob(Config::PROJECTS_PATH.'*', GLOB_ONLYDIR) as $dir ) {
+		foreach ( saneGlob(Config::PROJECTS_PATH.'*', GLOB_ONLYDIR) as $dir ) {
 			$project = $this->open( basename($dir) );
-			if( $project ) { // Make sure the project could be opened
+			if ( $project ) { // Make sure the project could be opened
 				$projects[] = $project;
 			}
 		}

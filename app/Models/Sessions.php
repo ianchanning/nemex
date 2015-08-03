@@ -22,7 +22,7 @@ class Sessions extends AppModel
 	}
 
 	public function login($loginName, $loginPass) {
-		if(
+		if (
 			$loginName === $this->userName &&
 			$loginPass === $this->userPass
 		) {

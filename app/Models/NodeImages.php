@@ -5,7 +5,7 @@ namespace Models;
 // require_once(NX_PATH.'lib/node.php');
 // require_once(NX_PATH.'lib/image.php');
 
-class NodeImage extends Nodes
+class NodeImages extends Nodes
 {
 	protected $extension = 'jpg';
 	public $type = 'image';
@@ -20,7 +20,7 @@ class NodeImage extends Nodes
 
 	public function createFromUpload($basePath, $uploadPath) {
 		$image = new Images($uploadPath);
-		if( !$image->valid ) {
+		if ( !$image->valid ) {
 			return null;
 		}
 
@@ -29,7 +29,7 @@ class NodeImage extends Nodes
 		$originalTargetPath = $scaledTargetPath;
 
 		// Do we want to create a scaled down version of this image?
-		if( $image->width > Config::IMAGE_MAX_WIDTH ) {
+		if ( $image->width > Config::IMAGE_MAX_WIDTH ) {
 			$scaledWidth = Config::IMAGE_MAX_WIDTH;
 			$scaledHeight = ($scaledWidth/$image->width) * $image->height;
 			$image->writeThumb(
@@ -46,7 +46,7 @@ class NodeImage extends Nodes
 
 		// If the image had an exif orientation, save the rotated version
 		// and delete the original.
-		if( $image->exifRotated ) {
+		if ( $image->exifRotated ) {
 			$image->write($originalTargetPath, Config::IMAGE_JPEG_QUALITY);
 			unlink($uploadPath);
 		}
@@ -72,7 +72,7 @@ class NodeImage extends Nodes
 
 	public function delete() {
 		$bigPath = $this->getBigPathName();
-		if( file_exists($bigPath) ) {
+		if ( file_exists($bigPath) ) {
 			unlink($bigPath);
 		}
 

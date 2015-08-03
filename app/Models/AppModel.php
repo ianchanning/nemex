@@ -6,5 +6,5 @@ use Vanda\Model;
 
 class AppModel extends Model
 {
-    
+
 }

@@ -14,11 +14,11 @@
  * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 
-require_once 'bootstrap.php';
-
 use Config\Config;
 
 use Vanda\Router;
+
+require_once 'bootstrap.php';
 
 /**
  * Same as `use \Config\config as config`

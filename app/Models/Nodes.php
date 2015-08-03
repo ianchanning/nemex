@@ -12,7 +12,7 @@ class Nodes extends AppModel
 	public $type = 'none';
 	public $editable = true;
 
-	protected function __construct($path) {
+	public function __construct($path) {
 		$this->path = $path;
 	}
 

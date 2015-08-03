@@ -1,5 +1,6 @@
 <?php
-// date_default_timezone_set('UTC');
+
+use Config\Config;
 
 /**
  * Autoload the app classes
@@ -13,6 +14,9 @@
 set_include_path(get_include_path() . PATH_SEPARATOR . 'app/');
 spl_autoload_register();
 
+// Config\Config isn't recognised as a class until after the autoloading
+date_default_timezone_set(Config::TIMEZONE);
+
 require_once __DIR__ . '/vendor/autoload.php';
 
 /**
@@ -21,8 +25,6 @@ require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/vendor/ianchanning/vandaphp-core/src/bootstrap.php';
 
 require_once __DIR__ . '/app/utils_vanda.php';
-// This is started in Models/Sessions.php
-// session_start();
 
 /**
  * Nemex index.php code
@@ -30,4 +32,3 @@ require_once __DIR__ . '/app/utils_vanda.php';
 define('DS', DIRECTORY_SEPARATOR);
 
 define('NX_PATH', dirname(__FILE__).DS);
-define('APP_PATH', NX_PATH.'app'.DS);

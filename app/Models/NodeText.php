@@ -29,7 +29,7 @@ class NodeText extends Nodes
 		// Write the new file and delete the old
 		$newPath = dirname($this->path).'/'.$this->getNewName($this->extension);
 
-		if( file_put_contents($newPath, $content) ) {
+		if ( file_put_contents($newPath, $content) ) {
 			setFileMode($newPath);
 			$this->delete();
 			$this->path = $newPath;
