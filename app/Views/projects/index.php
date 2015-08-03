@@ -8,7 +8,7 @@
 		</form>
 
 		<?php foreach($projects as $project) { ?>
-			<a href="?<?php p($project->getName());?>">
+			<a href="/index.php?v=projects&a=view&name=<?php p($project->getName());?>">
 				<div
 					data-name="<?php p($project->getName());?>"
 					class="project-list-item"

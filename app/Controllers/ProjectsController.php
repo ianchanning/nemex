@@ -23,7 +23,7 @@ class ProjectsController extends AppController
 	}
 
 	public function view() {
-		$projectName = key($_GET);
+		$projectName = $_GET['name'];
 		$project = $this->Projects->open($projectName);
 		if ( $project ) {
 			$nodes = $this->Projects->getNodes();

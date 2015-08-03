@@ -172,7 +172,7 @@ class Projects extends AppModel
 
 	public function getProjectList() {
 		$projects = array();
-		foreach ( saneGlob(Config::PROJECTS_PATH.'*', GLOB_ONLYDIR) as $dir ) {
+		foreach ( saneGlob(dirname(__FILE__) . DIRECTORY_SEPARATOR . Config::PROJECTS_PATH.'*', GLOB_ONLYDIR) as $dir ) {
 			$project = $this->open( basename($dir) );
 			if ( $project ) { // Make sure the project could be opened
 				$projects[] = $project;
