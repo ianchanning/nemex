@@ -1,11 +1,13 @@
 # Nemex
 This is taken from the awesome <http://nemex.io>.
 
-Its a simple way of creating notes on your own webserver. 
+Its a simple way of creating notes on your own webserver.
 Notes written in [markdown](http://daringfireball.net/projects/markdown/).
 No database required.
 
-As of the initial release all files are the same as the downloadable v0.98.
+Since I created this repo, nemex themselves have created their own [github repo](https://github.com/neonelephantstudio/nemex).
+
+This fork is a merge of nemex with my own [Vanda PHP micro framework](https://github.com/ianchanning/vandaphp).
 
 ## Installation
 
@@ -20,8 +22,10 @@ As of the initial release all files are the same as the downloadable v0.98.
 1. `$ git clone https://github.com/ianchanning/nemex.git .`
 
 ## Configuration
-1. Copy config-sample.php to config.php and edit the `usr` and `pwd` properties
-1. Go to <http://www.mydomain.com/nemex>
+1. `cd app/Config`
+1. `cp Config-sample.php Config.php`
+1. edit the `USER` and `PASSWORD` constants in `Config.php`
+1. Go to <http://www.example.com/nemex>
 
 ## License
 GPL v3
