@@ -15,6 +15,7 @@ class AppController extends Controller
 		if (!$this->auth($modelName) && !$this->Sessions->isAuthed()) {
 			$this->redirect('pages','login');
 		}
+		$this->set(array('config' => new Config()));
 	}
 
 	protected function auth($modelName) {

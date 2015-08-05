@@ -129,7 +129,7 @@ $(document).ready(function(){
 		nemexApi('pages', 'logout', {}, function(response){
 			location.reload();
 		}, function(response){
-			alert('error!');
+			console.log('error');
 			location.reload();
 		});
 		return false;
@@ -142,6 +142,9 @@ $(document).ready(function(){
 	$('.addProjectForm').submit(function(){
 		nemexApi('projects', 'add', this, function(response){
 			location.reload();
+		}, function(response){
+			console.log('error');
+			location.reload();
 		});
 		return false;
 	});
@@ -151,6 +154,9 @@ $(document).ready(function(){
 		var name = $(this).parents('.project-list-item').data('name');
 		if( confirm('Do you really want to delete the project '+name+'?') ) {
 			nemexApi('projects', 'delete', {name:name}, function(response){
+				location.reload();
+			}, function(response){
+				console.log('error');
 				location.reload();
 			});
 		}
@@ -173,6 +179,9 @@ $(document).ready(function(){
 		var project = $('.activeProject').text();
 		nemexApi('project', 'share', {project:project}, function(response){
 			location.reload();
+		}, function(response){
+			console.log('error');
+			location.reload();
 		});
 		return false;
 	});
@@ -181,6 +190,9 @@ $(document).ready(function(){
 	$('#unshareProject').click(function(){
 		var project = $('.activeProject').text();
 		nemexApi('project', 'unshare', {project:project}, function(response){
+			location.reload();
+		}, function(response){
+			console.log('error');
 			location.reload();
 		});
 		return false;
@@ -201,6 +213,9 @@ $(document).ready(function(){
 		var project = $('.activeProject').text();
 		var content = $('#addfield').val();
 		nemexApi('nodes', 'add', {project:project, content:content}, function(response){
+			location.reload();
+		}, function(response){
+			console.log('error');
 			location.reload();
 		});
 	});
@@ -231,6 +246,9 @@ $(document).ready(function(){
 
 		nemexApi('nodes', 'update', data, function(response){
 			location.reload();
+		}, function(response){
+			console.log('error');
+			location.reload();
 		});
 	});
 
@@ -240,6 +258,9 @@ $(document).ready(function(){
 		var projectName = $('.activeProject').text();
 		if( confirm('Do you really want to delete the node '+nodeName+'?') ) {
 			nemexApi('nodes', 'delete', {project:projectName, node:nodeName}, function(response){
+				location.reload();
+			}, function(response){
+				console.log('error');
 				location.reload();
 			});
 		}

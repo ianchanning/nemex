@@ -9,6 +9,11 @@ class PagesController extends AppController
     {
         $welcome = __('Welcome to Nemex');
         $this->set(compact('welcome'));
+        if ($this->Sessions->isAuthed()) {
+        	$this->redirect('projects','index');
+        } else {
+        	$this->redirect('pages','login');
+        }
     }
 
 	public function logout() {

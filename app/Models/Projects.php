@@ -15,10 +15,16 @@ class Projects extends AppModel
 
 	protected $sharekey = null;
 
-	public function __construct($path) {
-		$this->path = $path;
+	/**
+	 * This is the path to the individual project
+	 * @var string
+	 */
+	protected $path = null;
 
-		$this->linkModel('NodeText');
+	public function __construct($name) {
+        parent::__construct($name);
+
+		$this->linkModel('NodeTexts');
 		$this->linkModel('NodeImages');
 	}
 
@@ -40,9 +46,17 @@ class Projects extends AppModel
 
 	public function open($name) {
 		$path = $this->sanitizePath($name);
-		return is_dir($path)
-			? new Projects($path)
-			: null;
+		if (is_dir($path)) {
+			$project = new Projects('Projects');
+			$project->setPath($path);
+			return $project;
+		} else {
+			return null;
+		}
+	}
+
+	public function setPath($path) {
+		$this->path = $path;
 	}
 
 	public function openWithSharekey($name, $sharekey) {
@@ -134,7 +148,7 @@ class Projects extends AppModel
 			return $this->NodeImages->open($this->path.$name);
 		}
 		else if ( preg_match('/\.md$/i', $name) ) {
-			return $this->NodeText->open($this->path.$name);
+			return $this->NodeTexts->open($this->path.$name);
 		}
 		return null;
 	}
@@ -174,7 +188,7 @@ class Projects extends AppModel
 		$projects = array();
 		foreach ( saneGlob(dirname(__FILE__) . DIRECTORY_SEPARATOR . Config::PROJECTS_PATH.'*', GLOB_ONLYDIR) as $dir ) {
 			$project = $this->open( basename($dir) );
-			if ( $project ) { // Make sure the project could be opened
+			if ( !empty($project) ) { // Make sure the project could be opened
 				$projects[] = $project;
 			}
 		}

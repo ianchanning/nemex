@@ -5,6 +5,13 @@ namespace Controllers;
 class NodesController extends AppController
 {
 
+	public function __construct($modelName = null) {
+		parent::__construct($modelName);
+        $this->loadModel('Projects');
+        $this->loadModel('NodeTexts');
+        $this->loadModel('NodeImages');
+	}
+
 	public function download() {
 		$project = $this->Projects->open($_GET['project']);
 		$node = $project->getNode($_GET['download']);
@@ -20,7 +27,7 @@ class NodesController extends AppController
 	public function add() {
 		$project = $this->Projects->open($_POST['project']);
 		if ( $project ) {
-			$node = $this->NodeText->create($project->getPath(), $_POST['content']);
+			$node = $this->NodeTexts->create($project->getPath(), $_POST['content']);
 		}
 	}
 
@@ -33,7 +40,7 @@ class NodesController extends AppController
 	public function update() {
 		$project = $this->Projects->open($_POST['project']);
 		$node = $project->getNode($_POST['node']);
-		if ( $node instanceof NodeText ) {
+		if ( $node instanceof NodeTexts ) {
 			$node->edit($_POST['content']);
 		}
 	}

@@ -61,14 +61,14 @@
 			</div>
 			<div class="snap-content c3">
 				<p class="date">
-					<?php p(date(Config::DATE_FORMAT, $node->getTimestamp()));?>
+					<?php p(date($config::DATE_FORMAT, $node->getTimestamp()));?>
 				</p>
 				<div class="ncontent">
-					<?php if( $node instanceof NodeText ) {?>
+					<?php if( $node instanceof Models\NodeTexts ) {?>
 						<div class="content">
 							<div class="markdown"><?php p($node->getContent());?></div>
 						</div>
-					<?php } else if ( $node instanceof NodeImage ) {?>
+					<?php } else if ( $node instanceof Models\NodeImage ) {?>
 						<a href="<?php p($node->getOriginalPath());?>">
 							<img src="<?php p($node->getPath());?>"/>
 						</a>

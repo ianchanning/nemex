@@ -14,17 +14,17 @@
  * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 
+/**
+ * Same as `use \Config\Config as Config`
+ * @link http://php.net/manual/en/language.namespaces.importing.php
+ *
+ */
 use Config\Config;
 
 use Vanda\Router;
 
 require_once 'bootstrap.php';
 
-/**
- * Same as `use \Config\config as config`
- * @link http://php.net/manual/en/language.namespaces.importing.php
- *
- */
 // not required as it does nothing - file gets autoloaded
 // use utils_vanda;
 

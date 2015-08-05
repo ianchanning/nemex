@@ -25,8 +25,8 @@ class ProjectsController extends AppController
 	public function view() {
 		$projectName = $_GET['name'];
 		$project = $this->Projects->open($projectName);
-		if ( $project ) {
-			$nodes = $this->Projects->getNodes();
+		if ( !empty($project) ) {
+			$nodes = $project->getNodes();
 			$this->set(compact('nodes', 'project'));
 		}
 	}

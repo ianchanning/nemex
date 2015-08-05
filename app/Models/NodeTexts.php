@@ -2,7 +2,7 @@
 
 namespace Models;
 
-class NodeText extends Nodes
+class NodeTexts extends Nodes
 {
 	protected $extension = 'md';
 	public $type = 'text';
