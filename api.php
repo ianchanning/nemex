@@ -1,5 +1,6 @@
 <?php
-define( 'NX_PATH', realpath('./').'/' );
+
+/*define( 'NX_PATH', realpath('./').'/' );
 
 require_once(NX_PATH.'config.php');
 require_once(NX_PATH.'lib/utils.php');
@@ -31,5 +32,7 @@ if( !is_callable($func) ) {
 	exit();
 }
 call_user_func($func);
+*/
 
-echo json_encode($controller->response);
+// echo json_encode($controller->response);
+require_once 'index.php';

@@ -1,3 +1,4 @@
 /vendor
 composer.lock
-config.php
+/app/Config/Config.php
+/app/Models/Projects

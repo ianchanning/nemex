@@ -1,18 +1,21 @@
 <?php
 
-date_default_timezone_set('UTC');
+use Config\Config;
 
 /**
- * Autoload the app classes 
- * 
- * This means: 
+ * Autoload the app classes
+ *
+ * This means:
  *     `use \Models\Pages` will load `app\Models\Pages.php`
  *     `use \Controllers\PagesController` will load `app\Controllers\PagesController.php`
- * 
- * @http://php.net/manual/en/function.spl-autoload.php#92767
+ *
+ * @link http://php.net/manual/en/function.spl-autoload.php#92767
  */
 set_include_path(get_include_path() . PATH_SEPARATOR . 'app/');
 spl_autoload_register();
+
+// Config\Config isn't recognised as a class until after the autoloading
+date_default_timezone_set(Config::TIMEZONE);
 
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -21,4 +24,11 @@ require_once __DIR__ . '/vendor/autoload.php';
  */
 require_once __DIR__ . '/vendor/ianchanning/vandaphp-core/src/bootstrap.php';
 
-session_start();
+require_once __DIR__ . '/app/utils_vanda.php';
+
+/**
+ * Nemex index.php code
+ */
+define('DS', DIRECTORY_SEPARATOR);
+
+define('NX_PATH', dirname(__FILE__).DS);

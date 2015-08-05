@@ -30,7 +30,7 @@ $.fn.serializeObject = function() {
 };
 
 
-var nemexApi = function(action, data, callback, errback ) {
+var nemexApi = function(view, action, data, callback, errback ) {
 	// Check if data is a (jq wrapped?) form element
 	if(
 		data instanceof HTMLFormElement ||
@@ -38,8 +38,8 @@ var nemexApi = function(action, data, callback, errback ) {
 	) {
 		data = $(data).serializeObject();
 	}
-	data.action = action;
-	$.ajax({type: 'POST', url: 'index.php', success: callback, error: (errback||null), dataType: 'json', data: data});
+	// data.action = action;
+	$.ajax({type: 'POST', url: 'index.php?v='+view+'&a='+action, success: callback, error: (errback||null), dataType: 'json', data: data});
 };
 
 
@@ -126,7 +126,10 @@ $(document).ready(function(){
 	});
 
 	$('#logoutButton').click(function(){
-		nemexApi('logout', {}, function(response){
+		nemexApi('pages', 'logout', {}, function(response){
+			location.reload();
+		}, function(response){
+			console.log('error');
 			location.reload();
 		});
 		return false;
@@ -137,7 +140,10 @@ $(document).ready(function(){
 
 	// add new project
 	$('.addProjectForm').submit(function(){
-		nemexApi('addProject', this, function(response){
+		nemexApi('projects', 'add', this, function(response){
+			location.reload();
+		}, function(response){
+			console.log('error');
 			location.reload();
 		});
 		return false;
@@ -147,7 +153,10 @@ $(document).ready(function(){
 	$('.p_delete').click(function() {
 		var name = $(this).parents('.project-list-item').data('name');
 		if( confirm('Do you really want to delete the project '+name+'?') ) {
-			nemexApi('deleteProject', {name:name}, function(response){
+			nemexApi('projects', 'delete', {name:name}, function(response){
+				location.reload();
+			}, function(response){
+				console.log('error');
 				location.reload();
 			});
 		}
@@ -157,7 +166,7 @@ $(document).ready(function(){
 	// download project
 	$('.p_download').click(function(e){
 		var name = $(this).parents('.project-list-item').data('name');
-		window.location.href = 'index.php?downloadProject='+encodeURIComponent(name);
+		window.location.href = 'index.php?v=projects&a=download&project='+encodeURIComponent(name);
 		return false;
 	});
 
@@ -168,7 +177,10 @@ $(document).ready(function(){
 	// share
 	$('#shareProject').click(function(){
 		var project = $('.activeProject').text();
-		nemexApi('shareProject', {project:project}, function(response){
+		nemexApi('project', 'share', {project:project}, function(response){
+			location.reload();
+		}, function(response){
+			console.log('error');
 			location.reload();
 		});
 		return false;
@@ -177,7 +189,10 @@ $(document).ready(function(){
 	// unshare
 	$('#unshareProject').click(function(){
 		var project = $('.activeProject').text();
-		nemexApi('unshareProject', {project:project}, function(response){
+		nemexApi('project', 'unshare', {project:project}, function(response){
+			location.reload();
+		}, function(response){
+			console.log('error');
 			location.reload();
 		});
 		return false;
@@ -197,7 +212,10 @@ $(document).ready(function(){
 	$('.addPost').click(function(){
 		var project = $('.activeProject').text();
 		var content = $('#addfield').val();
-		nemexApi('addNode', {project:project, content:content}, function(response){
+		nemexApi('nodes', 'add', {project:project, content:content}, function(response){
+			location.reload();
+		}, function(response){
+			console.log('error');
 			location.reload();
 		});
 	});
@@ -226,7 +244,10 @@ $(document).ready(function(){
 			node: $node.data('name')
 		};
 
-		nemexApi('updateNode', data, function(response){
+		nemexApi('nodes', 'update', data, function(response){
+			location.reload();
+		}, function(response){
+			console.log('error');
 			location.reload();
 		});
 	});
@@ -236,7 +257,10 @@ $(document).ready(function(){
 		var nodeName = $(this).parents('.row').data('name');
 		var projectName = $('.activeProject').text();
 		if( confirm('Do you really want to delete the node '+nodeName+'?') ) {
-			nemexApi('deleteNode', {project:projectName, node:nodeName}, function(response){
+			nemexApi('nodes', 'delete', {project:projectName, node:nodeName}, function(response){
+				location.reload();
+			}, function(response){
+				console.log('error');
 				location.reload();
 			});
 		}

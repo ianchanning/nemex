@@ -2,9 +2,7 @@
 
 namespace Models;
 
-use Vanda\Model;
-
-class Pages extends Model
+class Pages extends AppModel
 {
-    
+
 }
