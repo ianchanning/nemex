@@ -1,3 +1,6 @@
+if (typeof jQuery ===  'undefined') {
+	console.log('jQuery not found');
+}
 
 jQuery.fn.visible = function() {
 	return this.css('visibility', 'visible');

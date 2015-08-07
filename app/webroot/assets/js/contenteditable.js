@@ -1,3 +1,7 @@
+if (typeof jQuery ===  'undefined') {
+    console.log('jQuery not found');
+}
+
 var contenteditable;
 (function (contenteditable) {
     var $ = jQuery;
@@ -37,7 +41,7 @@ var contenteditable;
         var oldValue = $(this).data().value;
         var newValue = content2value($(this));
         $(this).trigger("change", [
-            newValue, 
+            newValue,
             oldValue
         ]);
     });

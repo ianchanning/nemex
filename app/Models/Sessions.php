@@ -27,6 +27,10 @@ class Sessions extends AppModel
 			$loginPass === $this->userPass
 		) {
 			$_SESSION[$this->sessionName] = $this->instanceId;
+			/**
+			 * @todo confirm that the session actually is getting set
+			 * There can be a problem if an ad blocking plugin blocks cookies
+			 */
 		}
 
 		return $this->isAuthed();
