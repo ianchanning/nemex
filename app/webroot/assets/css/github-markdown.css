@@ -1,4 +1,3 @@
-
 /**
  * @link https://github.com/simonlc/Markdown-CSS
  */
@@ -133,6 +132,7 @@
   margin-top: 15px;
   margin-bottom: 15px;
   line-height: 1.1;
+  color: #333;
 }
 
 .markdown-body h1 {
