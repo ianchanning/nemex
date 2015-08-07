@@ -16,7 +16,7 @@
 				<div class="ncontent">
 					<?php if( $node instanceof Models\NodeTexts ) {?>
 						<div class="content">
-							<div class="markdown"><?php p($node->getContent());?></div>
+							<div class="markdown-body"><?php p($node->getContent());?></div>
 						</div>
 					<?php } else if ( $node instanceof Models\NodeImage ) {?>
 						<a href="<?php p($node->getOriginalPath());?>">
