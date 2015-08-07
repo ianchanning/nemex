@@ -41,7 +41,7 @@
 	<div id="newMarkdown" class="row">
 		<div class="c3 edit-mode">
 			<p class="date">preview</p>
-			<div class="ncontent"><div class="content"><div class="markdown"></div></div></div>
+			<div class="ncontent"><div class="content"><div class="markdown-body"></div></div></div>
 		</div>
 		<div class="c3edit" style="display:inline-block;">
 			<textarea id="addfield" class="editareafield" placeholder="start writing markdown here" ></textarea>
@@ -66,7 +66,7 @@
 				<div class="ncontent">
 					<?php if( $node instanceof Models\NodeTexts ) {?>
 						<div class="content">
-							<div class="markdown"><?php p($node->getContent());?></div>
+							<div class="markdown-body"><?php p($node->getContent());?></div>
 						</div>
 					<?php } else if ( $node instanceof Models\NodeImage ) {?>
 						<a href="<?php p($node->getOriginalPath());?>">

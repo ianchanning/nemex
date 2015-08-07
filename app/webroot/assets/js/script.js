@@ -71,7 +71,7 @@ $(document).ready(function(){
 	// Convert all markdown texts to html, but save the markdown source
 	// in a data attribute
 
-	$('.markdown').each(function(){
+	$('.markdown-body').each(function(){
 		var el = $(this);
 		var source = el.text();
 		el.data('source', source);
@@ -226,9 +226,9 @@ $(document).ready(function(){
 	// discard edit
 	$('.discardUpdate').click(function(){
 		var $node = $(this).parents('.row');
-		var source = $node.find('.markdown').data('source');
+		var source = $node.find('.markdown-body').data('source');
 
-		$node.find('.markdown').html( markdownConverter.makeHtml(source) );
+		$node.find('.markdown-body').html( markdownConverter.makeHtml(source) );
 		$node.find('.c3').toggleClass('edit-mode');
 		$node.find('.c3edit').toggle();
 
@@ -279,7 +279,7 @@ $(document).ready(function(){
 		$node.find('.snap-drawers').visibilityToggle();
 		$node.find('.actions').visibilityToggle();
 
-		var source = $node.find('.markdown').data('source');
+		var source = $node.find('.markdown-body').data('source');
 
 
 		$node.find('.c3').toggleClass('edit-mode');
@@ -292,7 +292,7 @@ $(document).ready(function(){
 		var $node = $(this).parents('.row');
 		var md = markdownConverter.makeHtml($node.find('.editareafield').val());
 
-		$node.find('.markdown').html(md);
+		$node.find('.markdown-body').html(md);
 		$node.find('.editareafield').trigger('autosize.resize');
 	});
 

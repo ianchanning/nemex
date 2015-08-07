@@ -8,6 +8,7 @@
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 	<link rel="stylesheet" type="text/css" href="/app/webroot/assets/css/screen.css">
+	<link rel="stylesheet" type="text/css" href="/app/webroot/assets/css/github-markdown.css">
 	<link rel="stylesheet" type="text/css" href="/app/webroot/assets/css/small-screen-overrides.css" media="screen and (max-width: 759px)">
 	<link rel="apple-touch-icon" sizes="76x76" href="/app/webroot/assets/img/touch-icon-ipad.png">
 	<link rel="apple-touch-icon" sizes="120x120" href="/app/webroot/assets/img/touch-icon-iphone-retina.png">
