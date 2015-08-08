@@ -8,9 +8,13 @@ class NodeTexts extends Nodes
 	public $type = 'text';
 
 	public function open($path) {
-		return is_file($path)
-			? new self($path)
-			: null;
+		if (is_file($path)) {
+			$node = new NodeTexts('NodeTexts');
+			$node->setPath($path);
+			return $node;
+		} else {
+			return null;
+		}
 	}
 
 	public function create($basePath, $content) {

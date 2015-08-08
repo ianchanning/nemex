@@ -40,7 +40,7 @@ class NodesController extends AppController
 	public function update() {
 		$project = $this->Projects->open($_POST['project']);
 		$node = $project->getNode($_POST['node']);
-		if ( $node instanceof NodeTexts ) {
+		if ( $node instanceof \Models\Nodes ) {
 			$node->edit($_POST['content']);
 		}
 	}
