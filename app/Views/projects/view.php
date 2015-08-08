@@ -68,7 +68,7 @@
 						<div class="content">
 							<div class="markdown-body"><?php p($node->getContent());?></div>
 						</div>
-					<?php } else if ( $node instanceof Models\NodeImage ) {?>
+					<?php } else if ( $node instanceof Models\NodeImages ) {?>
 						<a href="<?php p($node->getOriginalPath());?>">
 							<img src="<?php p($node->getPath());?>"/>
 						</a>

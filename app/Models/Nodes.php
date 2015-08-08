@@ -12,16 +12,16 @@ class Nodes extends AppModel
 	public $type = 'none';
 	public $editable = true;
 
-	public function __construct($path) {
-		$this->path = $path;
-	}
-
 	public function getName() {
 		return basename($this->path);
 	}
 
 	public function getPath() {
 		return $this->path;
+	}
+
+	public function setPath($path) {
+		return $this->path = $path;
 	}
 
 	public function getOriginalPath() {
