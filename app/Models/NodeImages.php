@@ -12,10 +12,15 @@ class NodeImages extends Nodes
 
 	public $editable = false;
 
+
 	public function open($path) {
-		return is_file($path)
-			? new self($path)
-			: null;
+		if (is_file($path)) {
+			$node = new NodeTexts('NodeTexts');
+			$node->setPath($path);
+			return $node;
+		} else {
+			return null;
+		}
 	}
 
 	public function createFromUpload($basePath, $uploadPath) {
