@@ -5,7 +5,7 @@
 
 <div id="editmenu"></div>
 <div class="navigation">
-	<a class="index" href="?"><img src="/app/webroot/assets/img/back.svg" /></a>
+	<a class="index" href="?"><img src="app/webroot/assets/img/back.svg" /></a>
 	<span class="share_project">
 		<?php if($project->isShared()) {?>
 
