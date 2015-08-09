@@ -8,7 +8,7 @@
 		</form>
 
 		<?php foreach($projects as $project) { ?>
-			<a href="/index.php?v=projects&a=view&name=<?php p($project->getName());?>">
+			<a href="index.php?v=projects&a=view&name=<?php p($project->getName());?>">
 				<div
 					data-name="<?php p($project->getName());?>"
 					class="project-list-item"
@@ -41,7 +41,7 @@
 
 	<div class="navigation">
 		<a id="logoutButton" class="index" href="#">
-			<img src="/app/webroot/assets/img/logout.svg"/>
+			<img src="app/webroot/assets/img/logout.svg"/>
 		</a>
 	</div>
 </div>
