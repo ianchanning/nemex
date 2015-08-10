@@ -2,6 +2,7 @@
 
 namespace Models;
 
+use Config\Config;
 // require_once(NX_PATH.'lib/node.php');
 // require_once(NX_PATH.'lib/image.php');
 
@@ -15,7 +16,7 @@ class NodeImages extends Nodes
 
 	public function open($path) {
 		if (is_file($path)) {
-			$node = new NodeTexts('NodeTexts');
+			$node = new NodeImages('NodeImages');
 			$node->setPath($path);
 			return $node;
 		} else {

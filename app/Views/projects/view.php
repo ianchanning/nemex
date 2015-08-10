@@ -52,6 +52,7 @@
 	</div>
 
 	<?php foreach($nodes as $node) { ?>
+
 		<div class="row node-<?php p($node->type);?>" data-name="<?php p($node->getName());?>">
 			<div class="snap-drawers">
 				<div class="snap-drawer snap-drawer-right">
@@ -64,11 +65,11 @@
 					<?php p(date($config::DATE_FORMAT, $node->getTimestamp()));?>
 				</p>
 				<div class="ncontent">
-					<?php if( $node instanceof Models\NodeTexts ) {?>
+					<?php if( get_class($node) === 'Models\NodeTexts' ) {?>
 						<div class="content">
 							<div class="markdown-body"><?php p($node->getContent());?></div>
 						</div>
-					<?php } else if ( $node instanceof Models\NodeImages ) {?>
+					<?php } else if ( get_class($node) === 'Models\NodeImages' ) {?>
 						<a href="<?php p($node->getOriginalPath());?>">
 							<img src="<?php p($node->getPath());?>"/>
 						</a>
