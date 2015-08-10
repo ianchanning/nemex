@@ -355,12 +355,13 @@ $(document).ready(function(){
 			previewfile(files[i]);
 		}
 
-		formData.append('action', 'upload');
+		// we've passing the action through the form action and not posting it
+		// formData.append('action', 'upload');
 		formData.append('project', $('.activeProject').text());
 
 		// now post a new XHR request
 		var xhr = new XMLHttpRequest();
-		xhr.open('POST', 'index.php');
+		xhr.open('POST', 'index.php?v=nodes&a=upload');
 		xhr.onload = function(data) {
 			progress.value = progress.innerHTML = 100;
 			location.reload();
