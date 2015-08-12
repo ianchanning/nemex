@@ -70,10 +70,20 @@ class NodeImages extends Nodes
 	}
 
 	public function getOriginalPath() {
+
 		$bigPath = $this->getBigPathName();
 		return file_exists($bigPath)
-			? $bigPath
-			: $this->path;
+			? $this->getPathUrl($bigPath)
+			: $this->getPath();
+	}
+
+	public function getPathUrl($path) {
+		return str_replace(NX_PATH, '', $path);
+	}
+
+	public function getPath() {
+		$path = parent::getPath();
+		return $this->getPathUrl($path);
 	}
 
 	public function delete() {
