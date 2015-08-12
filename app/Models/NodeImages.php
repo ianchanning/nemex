@@ -77,8 +77,14 @@ class NodeImages extends Nodes
 			: $this->getPath();
 	}
 
+	/**
+	 * Convert file path to app relative URL
+	 * @param  string $path File path
+	 * @return string       relative URL
+	 */
 	public function getPathUrl($path) {
-		return str_replace(NX_PATH, '', $path);
+		$relativePath = str_replace(NX_PATH, '', $path);
+		return str_replace('\\', '/', $relativePath);
 	}
 
 	public function getPath() {
