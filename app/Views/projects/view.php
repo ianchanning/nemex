@@ -62,7 +62,7 @@
 			</div>
 			<div class="snap-content c3">
 				<p class="date">
-					<?php p(date($config::DATE_FORMAT, $node->getTimestamp()));?>
+					<?php p(date(Config\Config::DATE_FORMAT, $node->getTimestamp()));?>
 				</p>
 				<div class="ncontent">
 					<?php if( get_class($node) === 'Models\NodeTexts' ) {?>
