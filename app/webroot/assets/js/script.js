@@ -33,7 +33,7 @@ $.fn.serializeObject = function() {
 };
 
 
-var nemexApi = function(view, action, data, callback, errback ) {
+var nemexApi = function(view, action, data, callback, errback) {
 	// Check if data is a (jq wrapped?) form element
 	if(
 		data instanceof HTMLFormElement ||
@@ -44,6 +44,13 @@ var nemexApi = function(view, action, data, callback, errback ) {
 	// data.action = action;
 	$.ajax({type: 'POST', url: 'index.php?v='+view+'&a='+action, success: callback, error: (errback||null), dataType: 'json', data: data});
 };
+
+var nemexApiError = function(response, status, error) {
+	console.log(response);
+	console.log(status);
+	console.log(error);
+	location.reload();
+}
 
 
 var mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -131,10 +138,7 @@ $(document).ready(function(){
 	$('#logoutButton').click(function(){
 		nemexApi('pages', 'logout', {}, function(response){
 			location.reload();
-		}, function(response){
-			console.log('error');
-			location.reload();
-		});
+		}, nemexApiError);
 		return false;
 	});
 
@@ -145,10 +149,7 @@ $(document).ready(function(){
 	$('.addProjectForm').submit(function(){
 		nemexApi('projects', 'add', this, function(response){
 			location.reload();
-		}, function(response){
-			console.log('error');
-			location.reload();
-		});
+		}, nemexApiError);
 		return false;
 	});
 
@@ -158,10 +159,7 @@ $(document).ready(function(){
 		if( confirm('Do you really want to delete the project '+name+'?') ) {
 			nemexApi('projects', 'delete', {name:name}, function(response){
 				location.reload();
-			}, function(response){
-				console.log('error');
-				location.reload();
-			});
+			}, nemexApiError);
 		}
 		return false;
 	});
@@ -180,24 +178,18 @@ $(document).ready(function(){
 	// share
 	$('#shareProject').click(function(){
 		var project = $('.activeProject').text();
-		nemexApi('project', 'share', {project:project}, function(response){
+		nemexApi('projects', 'share', {project:project}, function(response){
 			location.reload();
-		}, function(response){
-			console.log('error');
-			location.reload();
-		});
+		}, nemexApiError);
 		return false;
 	});
 
 	// unshare
 	$('#unshareProject').click(function(){
 		var project = $('.activeProject').text();
-		nemexApi('project', 'unshare', {project:project}, function(response){
+		nemexApi('projects', 'unshare', {project:project}, function(response){
 			location.reload();
-		}, function(response){
-			console.log('error');
-			location.reload();
-		});
+		}, nemexApiError);
 		return false;
 	});
 
@@ -217,10 +209,7 @@ $(document).ready(function(){
 		var content = $('#addfield').val();
 		nemexApi('nodes', 'add', {project:project, content:content}, function(response){
 			location.reload();
-		}, function(response){
-			console.log('error');
-			location.reload();
-		});
+		}, nemexApiError);
 	});
 
 	// discard edit
@@ -249,10 +238,7 @@ $(document).ready(function(){
 
 		nemexApi('nodes', 'update', data, function(response){
 			location.reload();
-		}, function(response){
-			console.log('error');
-			location.reload();
-		});
+		}, nemexApiError);
 	});
 
 	// delete
@@ -262,10 +248,7 @@ $(document).ready(function(){
 		if( confirm('Do you really want to delete the node '+nodeName+'?') ) {
 			nemexApi('nodes', 'delete', {project:projectName, node:nodeName}, function(response){
 				location.reload();
-			}, function(response){
-				console.log('error');
-				location.reload();
-			});
+			}, nemexApiError);
 		}
 	});
 

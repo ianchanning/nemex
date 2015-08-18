@@ -4,11 +4,11 @@
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	margin:0px;
-	padding: 0px;	
+	padding: 0px;
 }
 
 html, body {
-	height:100%; 
+	height:100%;
 	margin:0px;
 	padding: 0px;
 	font-family: "AvenirNext-Regular", "Lucida Grande", Lucida, Verdana, sans-serif;
@@ -50,12 +50,12 @@ p {
 	width: 600px;
 }
 
-#project { 
-	width: 800px; 
-	margin: 0 auto; 
-	padding: 0; position: 
-	relative; 
-	margin-top: 150px; 
+#project {
+	width: 800px;
+	margin: 0 auto;
+	padding: 0; position:
+	relative;
+	margin-top: 150px;
 	z-index: 1;
 	background-image: url('../img/line.png');
 	background-repeat: repeat-y;
@@ -81,6 +81,8 @@ p {
 	margin: 0 auto;
 	text-align: center;
 }
+
+.markdown-body { text-align: left; }
 
 .edit-mode {
 	float: left;
@@ -137,17 +139,17 @@ p {
 }
 
 button {
-	padding: 5px; 
+	padding: 5px;
 	background-color: #fff;
 }
 
 hr.vertical {
 	width: 0px;
 	height: 100%; /* or height in PX */
-} 
+}
 
 img {
-	max-width: 100%; 
+	max-width: 100%;
 }
 
 .header {
@@ -209,7 +211,7 @@ img {
 	float:left;
 	background-size: 100% 100%;
 	background-image: url(../img/delete.svg);
-	opacity: .5;	
+	opacity: .5;
 }
 
 .p_download{
@@ -284,7 +286,7 @@ img {
 	margin: 24px auto;
 	width: 166px;
 	visibility: hidden;
-	
+
 }
 
 .actions.image {
@@ -388,10 +390,10 @@ img {
 }
 
 #addProject {
-	background-image: url('../img/add.svg');    
+	background-image: url('../img/add.svg');
 	background-size: 100% 100%;
-	width: 96px; 
-	height: 96px; 
+	width: 96px;
+	height: 96px;
 	margin: 80px auto 20px auto;
 	margin-bottom: 30px;
 	cursor: pointer;
@@ -399,7 +401,7 @@ img {
 }
 
 #addProject:hover {
-	background-image: url('../img/add_hover.svg');  	
+	background-image: url('../img/add_hover.svg');
 }
 
 #uploadcircle {
@@ -410,7 +412,7 @@ img {
 
 #bubblediv {
 	display: none;
-	position: absolute;	
+	position: absolute;
 	top: -2;
 	left:350;
 	z-index:1;
@@ -461,7 +463,7 @@ input[type=password] {
 	color: #d1d1d1;
 }
 
-button {	
+button {
 	border: none;
 	border-radius: 2px;
 	height: 44px;
@@ -542,13 +544,13 @@ button {
 	-webkit-transition: width .25s ease-in-out;
 	white-space: nowrap;
 	color: #fff;
-	
+
 }
 
 #unshareProject:hover {
 	background: transparent url('../img/unshared.svg') bottom left no-repeat;
 	width: 100px;
-	
+
 }
 
 
@@ -560,7 +562,7 @@ button {
 }
 
 .publicUrl a:link, .publicUrl a:hover, .publicUrl a:visited {
-	color: #777575;	
+	color: #777575;
 }
 
 #logout {
@@ -569,16 +571,16 @@ button {
 }
 
 #holder {
-	background-color: #fff; 
-	background-image: url('../img/add.svg');    
+	background-color: #fff;
+	background-image: url('../img/add.svg');
 	background-size: 100% 100%;
-	width: 96px; 
-	height: 96px; 
+	width: 96px;
+	height: 96px;
 	margin: 20px auto;
 }
 
 #holder:hover {
-	background-image: url('../img/add_hover.svg');  	
+	background-image: url('../img/add_hover.svg');
 	cursor: pointer;
 }
 
@@ -594,12 +596,12 @@ button {
 }
 
 #holder img {
-	display: block; 
+	display: block;
 	margin: 10px auto;
 }
 
 #holder p {
-	margin: 10px; 
+	margin: 10px;
 	font-size: 14px;
 }
 
@@ -608,12 +610,12 @@ progress {
 	-moz-appearance: none;
 	-webkit-appearance: none;
 	background-color: #fff;
-	/* gets rid of default border in Firefox and Opera. */ 
+	/* gets rid of default border in Firefox and Opera. */
 	border: none;
 	color: #5EB9BA;
 }
 
-progress,                          /* Firefox  */ 
+progress,                          /* Firefox  */
 progress[role][aria-valuenow] {    /* Polyfill */
 	background: #fff !important; /* !important is needed by the polyfill */
 }
@@ -623,8 +625,8 @@ progress::-webkit-progress-bar {
 	background: #fff;
 }
 /* Firefox */
-progress::-moz-progress-bar { 
-	background: #5EB9BA;	
+progress::-moz-progress-bar {
+	background: #5EB9BA;
 }
 
 /* Chrome */
@@ -726,7 +728,7 @@ footer p {
 	margin: 0 auto;
 	text-align: center;
 	line-height: 1.25em;
-	
+
 }
 
 footer p a {

@@ -5,23 +5,49 @@ namespace Controllers;
 class ProjectsController extends AppController
 {
 
+	/**
+     * Check if model action is authorised
+     *
+     * Override to allow readonly projects access
+     * @param  string $modelName
+     * @param  string $action
+     * @return boolean           If the action is autorised
+     */
+    protected function auth($modelName, $action) {
+		if ($modelName === 'Projects' && $action === 'readonly') {
+			return true;
+		} else {
+			return parent::auth($modelName, $action);
+		}
+	}
+
+	/**
+	 * List all existing projects
+	 */
 	public function index() {
 		$projects = $this->Projects->getProjectList();
         $this->set(compact('projects'));
 	}
 
-	public function readonly() {
-		$get = array_keys($_GET);
-		$projectName = $get[0];
-		$sharekey = $get[1];
+	/**
+	 * View a shared project
+	 */
+    public function readonly() {
+		$projectName = $_GET['name'];
+		$sharekey = $_GET['key'];
 
 		$project = $this->Projects->openWithSharekey($projectName, $sharekey);
-		if ( $project ) {
-			$nodes = $this->Projects->getNodes();
+		if ( !empty($project) ) {
+			$nodes = $project->getNodes();
 	        $this->set(compact('nodes', 'project'));
+		} else {
+			$this->redirect('pages','login');
 		}
 	}
 
+	/**
+	 * Open a private project to view
+	 */
 	public function view() {
 		$projectName = $_GET['name'];
 		$project = $this->Projects->open($projectName);
@@ -31,6 +57,9 @@ class ProjectsController extends AppController
 		}
 	}
 
+	/**
+	 * Create a private empty project
+	 */
 	public function add() {
 		/**
 		 * ICC 2015-06-08 replace !! with (bool)
@@ -39,16 +68,22 @@ class ProjectsController extends AppController
 		$this->response['created'] = (bool) $this->Projects->create($_POST['name']);
 	}
 
+	/**
+	 * Delete a private project if it exists
+	 */
 	public function delete() {
 		$project = $this->Projects->open($_POST['name']);
-		if ( $project ) {
+		if ( !empty($project) ) {
 			$project->delete();
 		}
 	}
 
+	/**
+	 * Download a private project to a zip file
+	 */
 	public function download() {
 		$project = $this->Projects->open($_GET['project']);
-		if ( $project ) {
+		if ( !empty($project) ) {
 			$zipPath = $project->getPath().'project-all.temp.zip';
 			$project->createZIP($zipPath);
 			header("Content-type: application/zip");
@@ -61,15 +96,25 @@ class ProjectsController extends AppController
 		}
 	}
 
+	/**
+	 * Generate a link to share a project
+	 */
 	public function share() {
 		$project = $this->Projects->open($_POST['project']);
-		$key = $project->createSharekey();
-		$this->response['sharekey'] = $key;
+		if ( !empty($project) ) {
+			$key = $project->createSharekey();
+			$this->response['sharekey'] = $key;
+		}
 	}
 
+	/**
+	 * Delete the key that allowed readonly access
+	 */
 	public function unshare() {
 		$project = $this->Projects->open($_POST['project']);
-		$project->removeSharekey();
+		if ( !empty($project) ) {
+			$project->removeSharekey();
+		}
 	}
 
 }
