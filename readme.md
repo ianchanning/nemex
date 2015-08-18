@@ -1,7 +1,7 @@
 # Nemex
 This is taken from the awesome <http://nemex.io>.
 
-Its a simple way of creating notes on your own webserver.
+It's a simple way of creating notes on your own webserver.
 Notes written in [markdown](http://daringfireball.net/projects/markdown/).
 No database required.
 
