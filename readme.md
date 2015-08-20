@@ -9,6 +9,11 @@ Since I created this repo, nemex themselves have created their own [github repo]
 
 This fork is a merge of nemex with my own [Vanda PHP micro framework](https://github.com/ianchanning/vandaphp).
 
+## Requirements
+
+- PHP 5.3
+- PECL [ZipArchive](http://php.net/manual/en/zip.installation.php) to download projects as zip files
+
 ## Installation
 
 ### No source control
@@ -25,6 +30,7 @@ This fork is a merge of nemex with my own [Vanda PHP micro framework](https://gi
 1. `cd app/Config`
 1. `cp Config-sample.php Config.php`
 1. edit the `USER` and `PASSWORD` constants in `Config.php`
+1. Create `PROJECTS_PATH` directory relative to `app/Models`
 1. Go to <http://www.example.com/nemex>
 
 ## License
