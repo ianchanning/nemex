@@ -12,6 +12,12 @@ class Nodes extends AppModel
 	public $type = 'none';
 	public $editable = true;
 
+	public function __construct($name) {
+        parent::__construct($name);
+
+		$this->linkModel('Files');
+	}
+
 	public function getName() {
 		return basename($this->path);
 	}
@@ -37,6 +43,6 @@ class Nodes extends AppModel
 	}
 
 	public function delete() {
-		unlink($this->path);
+		$this->Files->delete($this->path);
 	}
 }

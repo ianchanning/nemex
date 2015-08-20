@@ -8,11 +8,6 @@ use Config\Config;
 
 class Projects extends AppModel
 {
-	protected $dirProtectIndex = '<?php header( "HTTP/1.1 403 forbidden" );';
-	protected $fileGlob = '*.{md,jpg,jpeg,png,gif}';
-	protected $titleImageGlob = '*.{jpg,jpeg,png,gif}';
-	protected $sharekeyGlob = '*.sharekey';
-
 	protected $sharekey = null;
 
 	/**
@@ -21,31 +16,26 @@ class Projects extends AppModel
 	 */
 	protected $path = null;
 
+	protected $directory = null;
+
 	public function __construct($name) {
         parent::__construct($name);
 
 		$this->linkModel('NodeTexts');
 		$this->linkModel('NodeImages');
+		$this->linkModel('Files');
+
+		$this->directory = __DIR__ . DIRECTORY_SEPARATOR . Config::PROJECTS_PATH;
 	}
 
 	public function create($name) {
-		$path = $this->sanitizePath($name);
-		// Create the project directory, the subdirectory for big images
-		// and a dummy index.php to prevent dir listing
-		mkdir($path);
-		setFileMode($path);
 
-		mkdir($path.Config::IMAGE_BIG_PATH);
-		setFileMode($path.Config::IMAGE_BIG_PATH);
-
-		file_put_contents($path.'index.php', $this->dirProtectIndex);
-		setFileMode($path.'index.php');
-
+		$this->Files->createProjectDirectory($this->directory, $name);
 		return $this->open($name);
 	}
 
 	public function open($name) {
-		$path = $this->sanitizePath($name);
+		$path = $this->Files->sanitizePath($this->directory, $name);
 		if (is_dir($path)) {
 			$project = new Projects('Projects');
 			$project->setPath($path);
@@ -63,20 +53,14 @@ class Projects extends AppModel
 		return $this->path;
 	}
 
-	public function openWithSharekey($name, $sharekey) {
+	public function openWithShareKey($name, $sharekey) {
 		$project = $this->open($name);
 
 		// Make sure the project is shared and the sharekey matches
-		if ( $project && $project->isShared() && $project->getSharekey() == $sharekey ) {
+		if ( $project && $project->isShared() && $project->getShareKey() == $sharekey ) {
 			return $project;
 		}
 		return null;
-	}
-
-	protected function sanitizePath($name) {
-		$name = iconv('UTF-8', 'ASCII//IGNORE', $name);
-		$name = preg_replace('/\W+/', '-', $name);
-		return __DIR__ . DIRECTORY_SEPARATOR . Config::PROJECTS_PATH.$name.DIRECTORY_SEPARATOR;
 	}
 
 	public function getName() {
@@ -84,7 +68,7 @@ class Projects extends AppModel
 	}
 
 	public function getTitleImage() {
-		$images = saneGlob($this->getPath().$this->titleImageGlob, GLOB_BRACE);
+		$images = $this->Files->getImages($this->getPath());
 		if ( !empty($images) ) {
 			rsort($images);
 			return "url('".$this->getPathUrl($this->getPath().basename($images[0]))."')";
@@ -97,62 +81,73 @@ class Projects extends AppModel
 		foreach ( $this->getNodes() as $node ) {
 			$node->delete();
 		}
-		unlink($this->getPath().'index.php');
-		$this->removeSharekey();
-
-		rmdir($this->getPath().Config::IMAGE_BIG_PATH);
-		rmdir($this->getPath());
+		$this->removeShareKey();
+		$this->Files->deleteProjectDirectory($this->getPath());
 	}
 
 	public function isShared() {
-		$key = $this->getSharekey();
+		$key = $this->getShareKey();
 		return !empty($key);
 	}
 
-	public function getSharekey() {
+	public function getShareKey() {
 		// Load sharekey if we didn't have one already
-		if ( empty($this->sharekey) ) {
-			$sharekeys = saneGlob($this->getPath().$this->sharekeyGlob, GLOB_BRACE);
-			if ( !empty($sharekeys) && preg_match('/(\w{32})\.sharekey$/', $sharekeys[0], $match) ) {
-				$this->sharekey = $match[1];
-			}
+		if ( empty($this->shareKey) ) {
+			$this->setShareKey();
 		}
 
-		return $this->sharekey;
+		return $this->shareKey;
 	}
 
-	public function removeSharekey() {
-		$key = $this->getSharekey();
+	public function setShareKey($key = null) {
+		if (is_null($key)) {
+			$this->shareKey = $this->Files->getShareKey($this->getPath());
+		} else {
+			$this->shareKey = $key;
+		}
+	}
+
+	public function removeShareKey() {
+		$key = $this->getShareKey();
 		if ( !empty($key) ) {
-			unlink($this->getPath().$key.'.sharekey');
+			$this->Files->deleteShareKey($this->getPath(), $key);
 		}
-		$this->sharekey = null;
+		$this->shareKey = null;
 	}
 
-	public function createSharekey() {
+	/**
+	 * Create a new .sharekey file with a random name
+	 * @return string key
+	 */
+	public function createShareKey() {
 		// Remove old sharekey, if present
-		$this->removeSharekey();
+		$this->removeShareKey();
 
-		// Create a new .sharekey file with a random name
 		$key = md5(rand().time());
-		$keyfile = $this->getPath().$key.'.sharekey';
-		file_put_contents($keyfile, time());
-		setFileMode($keyfile);
-
-		$this->sharekey = $key;
-		return $this->sharekey;
+		$this->Files->createShareKey($this->getPath(), $key);
+		$this->setShareKey($key);
+		return $key;
 	}
 
+	/**
+	 * Get either NodeImages or NodeTexts depending on file extension
+	 * @param  string $name Node file name
+	 * @return object       NodeImages or NodeTexts or null if invalid extension
+	 */
 	public function getNode($name) {
-		if ( preg_match('/\.(jpg|jpeg|png|gif)$/i', $name) ) {
+		if ( $this->Files->isImage($name) ) {
 			return $this->NodeImages->open($this->getPath().$name);
 		}
-		else if ( preg_match('/\.md$/i', $name) ) {
+		else if ( $this->Files->isText($name) ) {
 			return $this->NodeTexts->open($this->getPath().$name);
 		}
 		return null;
 	}
 
+	/**
+	 * Get array of all nodes in this project
+	 * @return array Node objects
+	 */
 	public function getNodes() {
 		$nodes = array();
 		foreach ( $this->getFiles() as $file ) {
@@ -161,32 +156,55 @@ class Projects extends AppModel
 		return $nodes;
 	}
 
+	/**
+	 * Get count of all recognised file types
+	 * @return integer count
+	 */
 	public function getNodeCount() {
 		return count($this->getFiles());
 	}
 
+	/**
+	 * Get array of all recognised file types
+	 * @return array reverse sorted filenames
+	 */
 	protected function getFiles() {
-		$files = saneGlob($this->getPath().$this->fileGlob, GLOB_BRACE);
-		rsort($files);
-		return $files;
+		return $this->Files->getFiles($this->getPath());
 	}
 
+	/**
+	 * Zip up all the nodes under this project
+	 *
+	 * Requires ZipArchive PECL extension
+	 * @link http://php.net/manual/en/zip.installation.php
+	 * @param  string  $zipPath where to create the zip
+	 * @return boolean          true if successfully created
+	 */
 	public function createZIP($zipPath) {
-		$zip = new ZipArchive;
-		if ( $zip->open($zipPath, ZipArchive::CREATE) ) {
-			foreach ( $this->getNodes() as $node ) {
-				$zip->addFile($node->getOriginalPath(), $node->getName());
-			}
+		/**
+		 * @todo Remove the Download link from the UI if the class doesn't exist
+		 */
+		if (class_exists('ZipArchive')) {
+			$zip = new ZipArchive;
+			if ( $zip->open($zipPath, ZipArchive::CREATE) ) {
+				foreach ( $this->getNodes() as $node ) {
+					$zip->addFile($node->getOriginalPath(), $node->getName());
+				}
 
-			$zip->close();
-			return true;
+				$zip->close();
+				return true;
+			}
 		}
 		return false;
 	}
 
+	/**
+	 * Get all projects
+	 * @return array Project object array
+	 */
 	public function getProjectList() {
 		$projects = array();
-		foreach ( saneGlob(__DIR__ . DIRECTORY_SEPARATOR . Config::PROJECTS_PATH.'*', GLOB_ONLYDIR) as $dir ) {
+		foreach ( $this->Files->getProjectDirectories($this->directory)  as $dir ) {
 			$project = $this->open( basename($dir) );
 			if ( !empty($project) ) { // Make sure the project could be opened
 				$projects[] = $project;
