@@ -18,9 +18,8 @@ class NodeTexts extends Nodes
 	}
 
 	public function create($basePath, $content) {
-		$path = $basePath.$this->getNewName('md');
-		file_put_contents($path, $content);
-		setFileMode($path);
+		$path = $basePath.$this->getNewName($this->extension);
+		$this->Files->create($path, $content);
 
 		return $this->open($path);
 	}
@@ -29,14 +28,22 @@ class NodeTexts extends Nodes
 		return file_get_contents($this->path);
 	}
 
+	/**
+	 * Write the new file and delete the old
+	 * @param  string $content text contents
+	 * @return boolean          successful edit
+	 */
 	public function edit($content) {
-		// Write the new file and delete the old
-		$newPath = dirname($this->path).'/'.$this->getNewName($this->extension);
+		//
+		$newPath = dirname($this->path).DIRECTORY_SEPARATOR.$this->getNewName($this->extension);
 
-		if ( file_put_contents($newPath, $content) ) {
-			setFileMode($newPath);
+		if ($this->Files->create($newPath, $content)) {
 			$this->delete();
 			$this->path = $newPath;
+			return true;
+		} else {
+			return false;
 		}
 	}
+
 }
