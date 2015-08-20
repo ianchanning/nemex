@@ -43,7 +43,7 @@ class NodeImages extends Nodes
 				$scaledWidth, $scaledHeight,
 				Config::IMAGE_SHARPEN
 			);
-			setFileMode($scaledTargetPath);
+			$this->Files->setFileMode($scaledTargetPath);
 
 			// We created a scaled down version, so the original has to be moved
 			// in a separate big/ folder
@@ -54,19 +54,19 @@ class NodeImages extends Nodes
 		// and delete the original.
 		if ( $image->exifRotated ) {
 			$image->write($originalTargetPath, Config::IMAGE_JPEG_QUALITY);
-			unlink($uploadPath);
+			$this->Files->delete($uploadPath);
 		}
 		// No EXIF orientation? Just move the original.
 		else {
 			move_uploaded_file($uploadPath, $originalTargetPath);
 		}
-		setFileMode($originalTargetPath);
+		$this->Files->setFileMode($originalTargetPath);
 
 		return $this->open($scaledTargetPath);
 	}
 
 	protected function getBigPathName() {
-		return dirname($this->path).'/'.Config::IMAGE_BIG_PATH.basename($this->path);
+		return dirname($this->path).DIRECTORY_SEPARATOR.Config::IMAGE_BIG_PATH.basename($this->path);
 	}
 
 	public function getOriginalPath() {
@@ -85,7 +85,7 @@ class NodeImages extends Nodes
 	public function delete() {
 		$bigPath = $this->getBigPathName();
 		if ( file_exists($bigPath) ) {
-			unlink($bigPath);
+			$this->Files->delete($bigPath);
 		}
 
 		parent::delete();
