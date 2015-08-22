@@ -61,6 +61,7 @@ class ProjectsController extends AppController
 	 * Create a private empty project
 	 */
 	public function add() {
+		$this->layout = '';
 		/**
 		 * ICC 2015-06-08 replace !! with (bool)
 		 * @link http://stackoverflow.com/a/2127324/327074
@@ -72,6 +73,7 @@ class ProjectsController extends AppController
 	 * Delete a private project if it exists
 	 */
 	public function delete() {
+		$this->layout = '';
 		$project = $this->Projects->open($_POST['name']);
 		if ( !empty($project) ) {
 			$project->delete();
@@ -82,6 +84,7 @@ class ProjectsController extends AppController
 	 * Download a private project to a zip file
 	 */
 	public function download() {
+		$this->layout = '';
 		$project = $this->Projects->open($_GET['project']);
 		if ( !empty($project) ) {
 			$zipPath = $project->getPath().'project-all.temp.zip';
@@ -100,6 +103,7 @@ class ProjectsController extends AppController
 	 * Generate a link to share a project
 	 */
 	public function share() {
+		$this->layout = '';
 		$project = $this->Projects->open($_POST['project']);
 		if ( !empty($project) ) {
 			$key = $project->createSharekey();
@@ -111,6 +115,7 @@ class ProjectsController extends AppController
 	 * Delete the key that allowed readonly access
 	 */
 	public function unshare() {
+		$this->layout = '';
 		$project = $this->Projects->open($_POST['project']);
 		if ( !empty($project) ) {
 			$project->removeSharekey();
