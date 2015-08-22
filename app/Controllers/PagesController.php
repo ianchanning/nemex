@@ -30,14 +30,6 @@ class PagesController extends AppController
 				$this->redirect('projects','index');
 			}
 		}
-
-		// Not authed for this nemex? Maybe we have a sharekey for the project?
-		// If not, just show the login form
-		/*if ( !$this->Sessions->isAuthed() ) {
-			if ( count($_GET) == 2 ) {
-				$this->redirect('projects','readonly');
-			}
-		}*/
 	}
 
 }
