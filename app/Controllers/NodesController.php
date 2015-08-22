@@ -13,8 +13,9 @@ class NodesController extends AppController
 	}
 
 	public function download() {
+		$this->layout = '';
 		$project = $this->Projects->open($_GET['project']);
-		$node = $project->getNode($_GET['download']);
+		$node = $project->getNode($_GET['node']);
 
 		if ( $node ) {
 			header('Content-type: application/octet-stream');
@@ -25,6 +26,7 @@ class NodesController extends AppController
 	}
 
 	public function add() {
+		$this->layout = '';
 		$project = $this->Projects->open($_POST['project']);
 		if ( $project ) {
 			$node = $this->NodeTexts->create($project->getPath(), $_POST['content']);
@@ -32,12 +34,14 @@ class NodesController extends AppController
 	}
 
 	public function delete() {
+		$this->layout = '';
 		$project = $this->Projects->open($_POST['project']);
 		$node = $project->getNode($_POST['node']);
 		$node->delete();
 	}
 
 	public function update() {
+		$this->layout = '';
 		$project = $this->Projects->open($_POST['project']);
 		$node = $project->getNode($_POST['node']);
 		if ( $node instanceof \Models\Nodes ) {
@@ -46,6 +50,7 @@ class NodesController extends AppController
 	}
 
 	public function upload() {
+		$this->layout = '';
 		$project = $this->Projects->open($_POST['project']);
 		foreach( $_FILES as $file ) {
 			$node = $this->NodeImages->createFromUpload($project->getPath(), $file['tmp_name']);

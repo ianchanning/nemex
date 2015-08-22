@@ -185,8 +185,8 @@ class Projects extends AppModel
 		 * @todo Remove the Download link from the UI if the class doesn't exist
 		 */
 		if (class_exists('ZipArchive')) {
-			$zip = new ZipArchive;
-			if ( $zip->open($zipPath, ZipArchive::CREATE) ) {
+			$zip = new \ZipArchive();
+			if ( $zip->open($zipPath, \ZipArchive::CREATE) ) {
 				foreach ( $this->getNodes() as $node ) {
 					$zip->addFile($node->getOriginalPath(), $node->getName());
 				}
