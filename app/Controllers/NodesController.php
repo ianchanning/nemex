@@ -14,7 +14,7 @@ class NodesController extends AppController
 
 	public function download() {
 		$project = $this->Projects->open($_GET['project']);
-		$node = $project->getNode($_GET['download']);
+		$node = $project->getNode($_GET['node']);
 
 		if ( $node ) {
 			header('Content-type: application/octet-stream');

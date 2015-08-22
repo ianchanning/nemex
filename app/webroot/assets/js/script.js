@@ -198,7 +198,7 @@ $(document).ready(function(){
 		var nodeName = $(this).parents('.row').data('name');
 		var projectName = $('.activeProject').text();
 		window.location.href =
-			'index.php?downloadNode='+encodeURIComponent(nodeName)+
+			'index.php?v=nodes&a=download&node='+encodeURIComponent(nodeName)+
 			'&project='+encodeURIComponent(projectName);
 		return false;
 	});
