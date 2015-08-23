@@ -167,7 +167,7 @@ $(document).ready(function(){
     // download project
     $('.p_download').click(function(e){
         var name = $(this).parents('.project-list-item').data('name');
-        window.location.href = 'index.php?v=projects&a=download&project='+encodeURIComponent(name);
+        window.location.href = 'index.php?v=projects&a=download&name='+encodeURIComponent(name);
         return false;
     });
 

@@ -9,7 +9,7 @@
     <span class="share_project">
         <?php if($project->isShared()) {?>
 
-            <a class="publicUrl" href="?<?php p($project->getName().'&'.$project->getSharekey());?>">
+            <a class="publicUrl" href="?<?php p(sprintf('v=projects&a=readonly&name=%s&key=%s', $project->getName(), $project->getSharekey())); ?>">
                 share this url
             </a>
             <a href="#" id="unshareProject">unshare</a>

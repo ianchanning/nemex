@@ -85,7 +85,7 @@ class ProjectsController extends AppController
      */
     public function download() {
         $this->layout = '';
-        $project = $this->Projects->open($_GET['project']);
+        $project = $this->Projects->open($_GET['name']);
         if ( !empty($project) ) {
             $zipPath = $project->getPath().'project-all.temp.zip';
             $project->createZIP($zipPath);

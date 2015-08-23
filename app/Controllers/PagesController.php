@@ -1,5 +1,5 @@
-
 <?php
+
 namespace Controllers;
 
 class PagesController extends AppController
@@ -17,7 +17,7 @@ class PagesController extends AppController
     }
 
     public function logout() {
-        $this->layout = 'blank';
+        $this->layout = '';
         $this->Sessions->logout();
         // $this->redirect('projects','index');
     }
