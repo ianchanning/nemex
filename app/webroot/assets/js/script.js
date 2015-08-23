@@ -1,69 +1,69 @@
 if (typeof jQuery ===  'undefined') {
-	console.log('jQuery not found');
+    console.log('jQuery not found');
 }
 
 jQuery.fn.visible = function() {
-	return this.css('visibility', 'visible');
+    return this.css('visibility', 'visible');
 };
 
 jQuery.fn.invisible = function() {
-	return this.css('visibility', 'hidden');
+    return this.css('visibility', 'hidden');
 };
 
 jQuery.fn.visibilityToggle = function() {
-	return this.css('visibility', function(i, visibility) {
-		return (visibility == 'visible') ? 'hidden' : 'visible';
-	});
+    return this.css('visibility', function(i, visibility) {
+        return (visibility == 'visible') ? 'hidden' : 'visible';
+    });
 };
 
 $.fn.serializeObject = function() {
-	var o = {};
-	var a = this.serializeArray();
-	$.each(a, function() {
-		if (o[this.name] !== undefined) {
-			if (!o[this.name].push) {
-				o[this.name] = [o[this.name]];
-			}
-			o[this.name].push(this.value || '');
-		} else {
-			o[this.name] = this.value || '';
-		}
-	});
-	return o;
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
 };
 
 
 var nemexApi = function(view, action, data, callback, errback) {
-	// Check if data is a (jq wrapped?) form element
-	if(
-		data instanceof HTMLFormElement ||
-		((data instanceof $) && data.is('form'))
-	) {
-		data = $(data).serializeObject();
-	}
-	// data.action = action;
-	$.ajax({type: 'POST', url: 'index.php?v='+view+'&a='+action, success: callback, error: (errback||null), dataType: 'json', data: data});
+    // Check if data is a (jq wrapped?) form element
+    if(
+        data instanceof HTMLFormElement ||
+        ((data instanceof $) && data.is('form'))
+    ) {
+        data = $(data).serializeObject();
+    }
+    // data.action = action;
+    $.ajax({type: 'POST', url: 'index.php?v='+view+'&a='+action, success: callback, error: (errback||null), dataType: 'json', data: data});
 };
 
 var nemexApiError = function(response, status, error) {
-	console.log(response);
-	console.log(status);
-	console.log(error);
-	location.reload();
+    console.log(response);
+    console.log(status);
+    console.log(error);
+    location.reload();
 }
 
 
 var mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
 var resizeSnapDrawers = function() {
-	$('.node-text').each(function(){
-		$(this).find('.snap-drawer .m-sub').height( $(this).find('.ncontent').height()/2 );
-	});
+    $('.node-text').each(function(){
+        $(this).find('.snap-drawer .m-sub').height( $(this).find('.ncontent').height()/2 );
+    });
 
-	$('.node-image .snap-drawer .e').hide();
-	$('.node-image').each(function(){
-		$(this).find('.snap-drawer .m-sub').height( $(this).find('.ncontent img').height() );
-	});
+    $('.node-image .snap-drawer .e').hide();
+    $('.node-image').each(function(){
+        $(this).find('.snap-drawer .m-sub').height( $(this).find('.ncontent img').height() );
+    });
 };
 
 $(document).ready(resizeSnapDrawers);
@@ -71,335 +71,335 @@ $(window).resize(resizeSnapDrawers);
 
 
 $(document).ready(function(){
-	var markdownConverter = new Showdown.converter();
+    var markdownConverter = new Showdown.converter();
 
-	$('textarea').autosize();
+    $('textarea').autosize();
 
-	// Convert all markdown texts to html, but save the markdown source
-	// in a data attribute
+    // Convert all markdown texts to html, but save the markdown source
+    // in a data attribute
 
-	$('.markdown-body').each(function(){
-		var el = $(this);
-		var source = el.text();
-		el.data('source', source);
-		el.html( markdownConverter.makeHtml(source) );
-	});
+    $('.markdown-body').each(function(){
+        var el = $(this);
+        var source = el.text();
+        el.data('source', source);
+        el.html( markdownConverter.makeHtml(source) );
+    });
 
-	if( mobile ) {
-		var snappers = [];
-		$('.row .snap-content').each(function(){
-			snappers.push( new Snap({element: this, disable:'left', minPosition: -55}) );
-		});
-	}
-	else {
-		$(".row").hover(
-			function(){
-				// not editable, or not in edit mode?
-				if( !$(this).find('.c3edit').length || $(this).find('.c3edit').is(':hidden') ) {
-					$(this).find('.c3 .actions').css('visibility', 'visible');
-				}
-			},
-			function(){
-				$(this).find('.c3 .actions').css('visibility', 'hidden');
-			}
-		);
-	}
+    if( mobile ) {
+        var snappers = [];
+        $('.row .snap-content').each(function(){
+            snappers.push( new Snap({element: this, disable:'left', minPosition: -55}) );
+        });
+    }
+    else {
+        $(".row").hover(
+            function(){
+                // not editable, or not in edit mode?
+                if( !$(this).find('.c3edit').length || $(this).find('.c3edit').is(':hidden') ) {
+                    $(this).find('.c3 .actions').css('visibility', 'visible');
+                }
+            },
+            function(){
+                $(this).find('.c3 .actions').css('visibility', 'hidden');
+            }
+        );
+    }
 
-	$(".project-list-item").hover(function(){
-		if(!mobile) {
-			$(this).children('.p_actions').visibilityToggle();
-		}
-	});
+    $(".project-list-item").hover(function(){
+        if(!mobile) {
+            $(this).children('.p_actions').visibilityToggle();
+        }
+    });
 
-	$(".projectList a").last().addClass('last');
+    $(".projectList a").last().addClass('last');
 
-	$("#addProject").click(function(){
-		$("#addProject").toggleClass('rotate');
-		$('.addProjectForm').slideToggle("fast", "linear");
-		$('#newProject').focus();
-	});
+    $("#addProject").click(function(){
+        $("#addProject").toggleClass('rotate');
+        $('.addProjectForm').slideToggle("fast", "linear");
+        $('#newProject').focus();
+    });
 
-	$("#holder").click(function(){
-		$("#holder").toggleClass('rotate');
-		$('#upload').addClass('mobile');
-		$('#newMarkdown').slideToggle();
-		$('#newMarkdown').children(".c3edit").children(".editareafield").val('');
-		$('#newMarkdown').children(".c3").children(".content").html('');
-		$('#newMarkdown').children(".c3edit").children(".editareafield").trigger('autosize.resize');
-	});
+    $("#holder").click(function(){
+        $("#holder").toggleClass('rotate');
+        $('#upload').addClass('mobile');
+        $('#newMarkdown').slideToggle();
+        $('#newMarkdown').children(".c3edit").children(".editareafield").val('');
+        $('#newMarkdown').children(".c3").children(".content").html('');
+        $('#newMarkdown').children(".c3edit").children(".editareafield").trigger('autosize.resize');
+    });
 
-	$(".discardAdd").click(function() {
-		$('#newMarkdown').slideToggle("normal", function() {
-			$('#upload').removeClass('mobile');
-			$("#holder").toggleClass('rotate');
-		});
-	});
+    $(".discardAdd").click(function() {
+        $('#newMarkdown').slideToggle("normal", function() {
+            $('#upload').removeClass('mobile');
+            $("#holder").toggleClass('rotate');
+        });
+    });
 
-	$('#logoutButton').click(function(){
-		nemexApi('pages', 'logout', {}, function(response){
-			location.reload();
-		}, nemexApiError);
-		return false;
-	});
-
-
-
-
-	// add new project
-	$('.addProjectForm').submit(function(){
-		nemexApi('projects', 'add', this, function(response){
-			location.reload();
-		}, nemexApiError);
-		return false;
-	});
-
-	// delete project
-	$('.p_delete').click(function() {
-		var name = $(this).parents('.project-list-item').data('name');
-		if( confirm('Do you really want to delete the project '+name+'?') ) {
-			nemexApi('projects', 'delete', {name:name}, function(response){
-				location.reload();
-			}, nemexApiError);
-		}
-		return false;
-	});
-
-	// download project
-	$('.p_download').click(function(e){
-		var name = $(this).parents('.project-list-item').data('name');
-		window.location.href = 'index.php?v=projects&a=download&project='+encodeURIComponent(name);
-		return false;
-	});
-
-	$('#markdownhelp').click(function(e) {
-		$('#mdhelp').slideToggle();
-	});
-
-	// share
-	$('#shareProject').click(function(){
-		var project = $('.activeProject').text();
-		nemexApi('projects', 'share', {project:project}, function(response){
-			location.reload();
-		}, nemexApiError);
-		return false;
-	});
-
-	// unshare
-	$('#unshareProject').click(function(){
-		var project = $('.activeProject').text();
-		nemexApi('projects', 'unshare', {project:project}, function(response){
-			location.reload();
-		}, nemexApiError);
-		return false;
-	});
-
-	// download node
-	$('.download-big').click(function(){
-		var nodeName = $(this).parents('.row').data('name');
-		var projectName = $('.activeProject').text();
-		window.location.href =
-			'index.php?v=nodes&a=download&node='+encodeURIComponent(nodeName)+
-			'&project='+encodeURIComponent(projectName);
-		return false;
-	});
-
-	// add node
-	$('.addPost').click(function(){
-		var project = $('.activeProject').text();
-		var content = $('#addfield').val();
-		nemexApi('nodes', 'add', {project:project, content:content}, function(response){
-			location.reload();
-		}, nemexApiError);
-	});
-
-	// discard edit
-	$('.discardUpdate').click(function(){
-		var $node = $(this).parents('.row');
-		var source = $node.find('.markdown-body').data('source');
-
-		$node.find('.markdown-body').html( markdownConverter.makeHtml(source) );
-		$node.find('.c3').toggleClass('edit-mode');
-		$node.find('.c3edit').toggle();
-
-		if( mobile ) {
-			$node.find('.snap-drawers').visible();
-			$node.find('.actions').invisible();
-		}
-	});
-
-	// save edit
-	$('.save').click(function(){
-		var $node = $(this).parents('.row');
-		var data = {
-			content: $node.find('.editareafield').val(),
-			project: $('.activeProject').text(),
-			node: $node.data('name')
-		};
-
-		nemexApi('nodes', 'update', data, function(response){
-			location.reload();
-		}, nemexApiError);
-	});
-
-	// delete
-	$('.delete, .delete-big').click(function(){
-		var nodeName = $(this).parents('.row').data('name');
-		var projectName = $('.activeProject').text();
-		if( confirm('Do you really want to delete the node '+nodeName+'?') ) {
-			nemexApi('nodes', 'delete', {project:projectName, node:nodeName}, function(response){
-				location.reload();
-			}, nemexApiError);
-		}
-	});
+    $('#logoutButton').click(function(){
+        nemexApi('pages', 'logout', {}, function(response){
+            location.reload();
+        }, nemexApiError);
+        return false;
+    });
 
 
 
 
-	var state = 1;
+    // add new project
+    $('.addProjectForm').submit(function(){
+        nemexApi('projects', 'add', this, function(response){
+            location.reload();
+        }, nemexApiError);
+        return false;
+    });
 
-	$('.edit, .edit-big').click(function(){
-		var $node = $(this).parents('.row');
-		$node.find('.snap-drawers').visibilityToggle();
-		$node.find('.actions').visibilityToggle();
+    // delete project
+    $('.p_delete').click(function() {
+        var name = $(this).parents('.project-list-item').data('name');
+        if( confirm('Do you really want to delete the project '+name+'?') ) {
+            nemexApi('projects', 'delete', {name:name}, function(response){
+                location.reload();
+            }, nemexApiError);
+        }
+        return false;
+    });
 
-		var source = $node.find('.markdown-body').data('source');
+    // download project
+    $('.p_download').click(function(e){
+        var name = $(this).parents('.project-list-item').data('name');
+        window.location.href = 'index.php?v=projects&a=download&project='+encodeURIComponent(name);
+        return false;
+    });
+
+    $('#markdownhelp').click(function(e) {
+        $('#mdhelp').slideToggle();
+    });
+
+    // share
+    $('#shareProject').click(function(){
+        var project = $('.activeProject').text();
+        nemexApi('projects', 'share', {project:project}, function(response){
+            location.reload();
+        }, nemexApiError);
+        return false;
+    });
+
+    // unshare
+    $('#unshareProject').click(function(){
+        var project = $('.activeProject').text();
+        nemexApi('projects', 'unshare', {project:project}, function(response){
+            location.reload();
+        }, nemexApiError);
+        return false;
+    });
+
+    // download node
+    $('.download-big').click(function(){
+        var nodeName = $(this).parents('.row').data('name');
+        var projectName = $('.activeProject').text();
+        window.location.href =
+            'index.php?v=nodes&a=download&node='+encodeURIComponent(nodeName)+
+            '&project='+encodeURIComponent(projectName);
+        return false;
+    });
+
+    // add node
+    $('.addPost').click(function(){
+        var project = $('.activeProject').text();
+        var content = $('#addfield').val();
+        nemexApi('nodes', 'add', {project:project, content:content}, function(response){
+            location.reload();
+        }, nemexApiError);
+    });
+
+    // discard edit
+    $('.discardUpdate').click(function(){
+        var $node = $(this).parents('.row');
+        var source = $node.find('.markdown-body').data('source');
+
+        $node.find('.markdown-body').html( markdownConverter.makeHtml(source) );
+        $node.find('.c3').toggleClass('edit-mode');
+        $node.find('.c3edit').toggle();
+
+        if( mobile ) {
+            $node.find('.snap-drawers').visible();
+            $node.find('.actions').invisible();
+        }
+    });
+
+    // save edit
+    $('.save').click(function(){
+        var $node = $(this).parents('.row');
+        var data = {
+            content: $node.find('.editareafield').val(),
+            project: $('.activeProject').text(),
+            node: $node.data('name')
+        };
+
+        nemexApi('nodes', 'update', data, function(response){
+            location.reload();
+        }, nemexApiError);
+    });
+
+    // delete
+    $('.delete, .delete-big').click(function(){
+        var nodeName = $(this).parents('.row').data('name');
+        var projectName = $('.activeProject').text();
+        if( confirm('Do you really want to delete the node '+nodeName+'?') ) {
+            nemexApi('nodes', 'delete', {project:projectName, node:nodeName}, function(response){
+                location.reload();
+            }, nemexApiError);
+        }
+    });
 
 
-		$node.find('.c3').toggleClass('edit-mode');
-		$node.find('.c3edit').toggle();
-		$node.find('.editareafield').val(source).trigger('autosize.resize');
-		$node.find('.editarea').focus();
-	});
-
-	$('.editareafield').keyup(function(){
-		var $node = $(this).parents('.row');
-		var md = markdownConverter.makeHtml($node.find('.editareafield').val());
-
-		$node.find('.markdown-body').html(md);
-		$node.find('.editareafield').trigger('autosize.resize');
-	});
 
 
+    var state = 1;
 
-	// file upload/preview
-	var holder = document,
-		tests = {
-				filereader: typeof FileReader != 'undefined',
-				dnd: 'draggable' in document.createElement('span'),
-				formdata: !!window.FormData,
-				progress: "upload" in new XMLHttpRequest
-			},
-		support = {
-			filereader: document.getElementById('filereader'),
-			formdata: document.getElementById('formdata'),
-			progress: document.getElementById('progress'),
-		},
-		acceptedTypes = {
-			'image/png': true,
-			'image/jpeg': true,
-			'image/gif': true
-		},
-		progress = document.getElementById('uploadprogress'),
-		fileupload = document.getElementById('upload');
+    $('.edit, .edit-big').click(function(){
+        var $node = $(this).parents('.row');
+        $node.find('.snap-drawers').visibilityToggle();
+        $node.find('.actions').visibilityToggle();
 
-		"filereader formdata progress".split(' ').forEach(function (api) {
-			if (tests[api] === false) {
-				support[api].className = 'fail';
-			}
-			else {
-				// FFS. I could have done el.hidden = true, but IE doesn't support
-				// hidden, so I tried to create a polyfill that would extend the
-				// Element.prototype, but then IE10 doesn't even give me access
-				// to the Element object. Brilliant.
-				// support[api].className = 'hidden';
-			}
-	});
+        var source = $node.find('.markdown-body').data('source');
 
-	function previewfile(file) {
-		if( tests.filereader === true && acceptedTypes[file.type] === true ) {
-			var reader = new FileReader();
-			reader.onload = function (event) {
-				var image = new Image();
-				image.src = event.target.result;
-				holder.getElementById('holder').appendChild(image);
 
-			};
-			reader.readAsDataURL(file);
-		}
-		else {
-			holder.innerHTML += '<p>Uploaded ' + file.name + ' ' + (file.size ? (file.size/1024|0) + 'K' : '') + '</p>';
-		}
-	}
+        $node.find('.c3').toggleClass('edit-mode');
+        $node.find('.c3edit').toggle();
+        $node.find('.editareafield').val(source).trigger('autosize.resize');
+        $node.find('.editarea').focus();
+    });
 
-	function readfiles(files) {
-		var formData = new FormData();
-		for( var i = 0; i < files.length; i++ ) {
-			formData.append('file_'+i, files[i]);
-			previewfile(files[i]);
-		}
+    $('.editareafield').keyup(function(){
+        var $node = $(this).parents('.row');
+        var md = markdownConverter.makeHtml($node.find('.editareafield').val());
 
-		// we've passing the action through the form action and not posting it
-		// formData.append('action', 'upload');
-		formData.append('project', $('.activeProject').text());
+        $node.find('.markdown-body').html(md);
+        $node.find('.editareafield').trigger('autosize.resize');
+    });
 
-		// now post a new XHR request
-		var xhr = new XMLHttpRequest();
-		xhr.open('POST', 'index.php?v=nodes&a=upload');
-		xhr.onload = function(data) {
-			progress.value = progress.innerHTML = 100;
-			location.reload();
-		};
 
-		xhr.upload.onprogress = function (event) {
-			if (event.lengthComputable) {
-				var complete = (event.loaded / event.total * 100 | 0);
-				progress.value = progress.innerHTML = complete;
-			}
-		}
-		xhr.send(formData);
-	}
 
-	if( tests.dnd ) {
-		holder.ondragover = function () { this.className = 'hover'; return false; };
-		holder.ondragend = function () { this.className = ''; return false; };
-		holder.ondrop = function (e) {
-			this.className = '';
-			e.preventDefault();
-			readfiles(e.dataTransfer.files);
-		}
+    // file upload/preview
+    var holder = document,
+        tests = {
+                filereader: typeof FileReader != 'undefined',
+                dnd: 'draggable' in document.createElement('span'),
+                formdata: !!window.FormData,
+                progress: "upload" in new XMLHttpRequest
+            },
+        support = {
+            filereader: document.getElementById('filereader'),
+            formdata: document.getElementById('formdata'),
+            progress: document.getElementById('progress'),
+        },
+        acceptedTypes = {
+            'image/png': true,
+            'image/jpeg': true,
+            'image/gif': true
+        },
+        progress = document.getElementById('uploadprogress'),
+        fileupload = document.getElementById('upload');
 
-		$("#uup").change(function(e){
-			e.preventDefault();
-			readfiles(e.target.files);
-			$("#holder").toggleClass('rotate');
-			$('#upload').removeClass('mobile');
-			$('#newMarkdown').fadeToggle("fast", "linear");
-		});
+        "filereader formdata progress".split(' ').forEach(function (api) {
+            if (tests[api] === false) {
+                support[api].className = 'fail';
+            }
+            else {
+                // FFS. I could have done el.hidden = true, but IE doesn't support
+                // hidden, so I tried to create a polyfill that would extend the
+                // Element.prototype, but then IE10 doesn't even give me access
+                // to the Element object. Brilliant.
+                // support[api].className = 'hidden';
+            }
+    });
 
-	}
-	else {
-		fileupload.className = 'hidden';
-		fileupload.querySelector('input').onchange = function () {
-			readfiles(this.files);
-		};
-	}
+    function previewfile(file) {
+        if( tests.filereader === true && acceptedTypes[file.type] === true ) {
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                var image = new Image();
+                image.src = event.target.result;
+                holder.getElementById('holder').appendChild(image);
+
+            };
+            reader.readAsDataURL(file);
+        }
+        else {
+            holder.innerHTML += '<p>Uploaded ' + file.name + ' ' + (file.size ? (file.size/1024|0) + 'K' : '') + '</p>';
+        }
+    }
+
+    function readfiles(files) {
+        var formData = new FormData();
+        for( var i = 0; i < files.length; i++ ) {
+            formData.append('file_'+i, files[i]);
+            previewfile(files[i]);
+        }
+
+        // we've passing the action through the form action and not posting it
+        // formData.append('action', 'upload');
+        formData.append('project', $('.activeProject').text());
+
+        // now post a new XHR request
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'index.php?v=nodes&a=upload');
+        xhr.onload = function(data) {
+            progress.value = progress.innerHTML = 100;
+            location.reload();
+        };
+
+        xhr.upload.onprogress = function (event) {
+            if (event.lengthComputable) {
+                var complete = (event.loaded / event.total * 100 | 0);
+                progress.value = progress.innerHTML = complete;
+            }
+        }
+        xhr.send(formData);
+    }
+
+    if( tests.dnd ) {
+        holder.ondragover = function () { this.className = 'hover'; return false; };
+        holder.ondragend = function () { this.className = ''; return false; };
+        holder.ondrop = function (e) {
+            this.className = '';
+            e.preventDefault();
+            readfiles(e.dataTransfer.files);
+        }
+
+        $("#uup").change(function(e){
+            e.preventDefault();
+            readfiles(e.target.files);
+            $("#holder").toggleClass('rotate');
+            $('#upload').removeClass('mobile');
+            $('#newMarkdown').fadeToggle("fast", "linear");
+        });
+
+    }
+    else {
+        fileupload.className = 'hidden';
+        fileupload.querySelector('input').onchange = function () {
+            readfiles(this.files);
+        };
+    }
 
 });
 
 
 // Prevent links in standalone web apps opening Mobile Safari
 if( ("standalone" in window.navigator) && window.navigator.standalone ){
-	var noddy, remotes = false;
-	document.addEventListener('click', function(event) {
-		noddy = event.target;
-		while(noddy.nodeName !== "A" && noddy.nodeName !== "HTML") {
-			noddy = noddy.parentNode;
-		}
+    var noddy, remotes = false;
+    document.addEventListener('click', function(event) {
+        noddy = event.target;
+        while(noddy.nodeName !== "A" && noddy.nodeName !== "HTML") {
+            noddy = noddy.parentNode;
+        }
 
-		if('href' in noddy && noddy.href.indexOf('http') !== -1 && (noddy.href.indexOf(document.location.host) !== -1 || remotes)) {
-			event.preventDefault();
-			document.location.href = noddy.href;
-		}
+        if('href' in noddy && noddy.href.indexOf('http') !== -1 && (noddy.href.indexOf(document.location.host) !== -1 || remotes)) {
+            event.preventDefault();
+            document.location.href = noddy.href;
+        }
 
-	},false);
+    },false);
 }

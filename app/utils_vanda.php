@@ -8,5 +8,5 @@ use Config\Config;
  * @return string         escaped HTML
  */
 function p($string) {
-	echo htmlspecialchars($string);
+    echo htmlspecialchars($string);
 }

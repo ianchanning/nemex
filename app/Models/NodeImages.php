@@ -8,86 +8,86 @@ use Config\Config;
 
 class NodeImages extends Nodes
 {
-	protected $extension = 'jpg';
-	public $type = 'image';
+    protected $extension = 'jpg';
+    public $type = 'image';
 
-	public $editable = false;
+    public $editable = false;
 
 
-	public function open($path) {
-		if (is_file($path)) {
-			$node = new NodeImages('NodeImages');
-			$node->setPath($path);
-			return $node;
-		} else {
-			return null;
-		}
-	}
+    public function open($path) {
+        if (is_file($path)) {
+            $node = new NodeImages('NodeImages');
+            $node->setPath($path);
+            return $node;
+        } else {
+            return null;
+        }
+    }
 
-	public function createFromUpload($basePath, $uploadPath) {
-		$image = new Images($uploadPath);
-		if ( !$image->valid ) {
-			return null;
-		}
+    public function createFromUpload($basePath, $uploadPath) {
+        $image = new Images($uploadPath);
+        if ( !$image->valid ) {
+            return null;
+        }
 
-		$targetName = $this->getNewName($image->extension);
-		$scaledTargetPath = $basePath.$targetName;
-		$originalTargetPath = $scaledTargetPath;
+        $targetName = $this->getNewName($image->extension);
+        $scaledTargetPath = $basePath.$targetName;
+        $originalTargetPath = $scaledTargetPath;
 
-		// Do we want to create a scaled down version of this image?
-		if ( $image->width > Config::IMAGE_MAX_WIDTH ) {
-			$scaledWidth = Config::IMAGE_MAX_WIDTH;
-			$scaledHeight = ($scaledWidth/$image->width) * $image->height;
-			$image->writeThumb(
-				$scaledTargetPath, Config::IMAGE_JPEG_QUALITY,
-				$scaledWidth, $scaledHeight,
-				Config::IMAGE_SHARPEN
-			);
-			$this->Files->setFileMode($scaledTargetPath);
+        // Do we want to create a scaled down version of this image?
+        if ( $image->width > Config::IMAGE_MAX_WIDTH ) {
+            $scaledWidth = Config::IMAGE_MAX_WIDTH;
+            $scaledHeight = ($scaledWidth/$image->width) * $image->height;
+            $image->writeThumb(
+                $scaledTargetPath, Config::IMAGE_JPEG_QUALITY,
+                $scaledWidth, $scaledHeight,
+                Config::IMAGE_SHARPEN
+            );
+            $this->Files->setFileMode($scaledTargetPath);
 
-			// We created a scaled down version, so the original has to be moved
-			// in a separate big/ folder
-			$originalTargetPath = $basePath.Config::IMAGE_BIG_PATH.$targetName;
-		}
+            // We created a scaled down version, so the original has to be moved
+            // in a separate big/ folder
+            $originalTargetPath = $basePath.Config::IMAGE_BIG_PATH.$targetName;
+        }
 
-		// If the image had an exif orientation, save the rotated version
-		// and delete the original.
-		if ( $image->exifRotated ) {
-			$image->write($originalTargetPath, Config::IMAGE_JPEG_QUALITY);
-			$this->Files->delete($uploadPath);
-		}
-		// No EXIF orientation? Just move the original.
-		else {
-			move_uploaded_file($uploadPath, $originalTargetPath);
-		}
-		$this->Files->setFileMode($originalTargetPath);
+        // If the image had an exif orientation, save the rotated version
+        // and delete the original.
+        if ( $image->exifRotated ) {
+            $image->write($originalTargetPath, Config::IMAGE_JPEG_QUALITY);
+            $this->Files->delete($uploadPath);
+        }
+        // No EXIF orientation? Just move the original.
+        else {
+            move_uploaded_file($uploadPath, $originalTargetPath);
+        }
+        $this->Files->setFileMode($originalTargetPath);
 
-		return $this->open($scaledTargetPath);
-	}
+        return $this->open($scaledTargetPath);
+    }
 
-	protected function getBigPathName() {
-		return dirname($this->path).DIRECTORY_SEPARATOR.Config::IMAGE_BIG_PATH.basename($this->path);
-	}
+    protected function getBigPathName() {
+        return dirname($this->path).DIRECTORY_SEPARATOR.Config::IMAGE_BIG_PATH.basename($this->path);
+    }
 
-	public function getOriginalPath() {
+    public function getOriginalPath() {
 
-		$bigPath = $this->getBigPathName();
-		return file_exists($bigPath)
-			? $this->getPathUrl($bigPath)
-			: $this->getPath();
-	}
+        $bigPath = $this->getBigPathName();
+        return file_exists($bigPath)
+            ? $this->getPathUrl($bigPath)
+            : $this->getPath();
+    }
 
-	public function getPath() {
-		$path = parent::getPath();
-		return $this->getPathUrl($path);
-	}
+    public function getPath() {
+        $path = parent::getPath();
+        return $this->getPathUrl($path);
+    }
 
-	public function delete() {
-		$bigPath = $this->getBigPathName();
-		if ( file_exists($bigPath) ) {
-			$this->Files->delete($bigPath);
-		}
+    public function delete() {
+        $bigPath = $this->getBigPathName();
+        if ( file_exists($bigPath) ) {
+            $this->Files->delete($bigPath);
+        }
 
-		parent::delete();
-	}
+        parent::delete();
+    }
 }

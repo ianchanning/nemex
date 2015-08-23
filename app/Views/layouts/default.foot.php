@@ -1,8 +1,8 @@
 
 <div class="preloader">
-	<img src="app/webroot/assets/img/cancel@2x.png" />
-	<img src="app/webroot/assets/img/cancel_edit@2x.png" />
-	<img src="app/webroot/assets/img/save@2x.png" />
+    <img src="app/webroot/assets/img/cancel@2x.png" />
+    <img src="app/webroot/assets/img/cancel_edit@2x.png" />
+    <img src="app/webroot/assets/img/save@2x.png" />
 </div>
 
 <script src="app/webroot/assets/js/jquery-1.11.3.min.js"></script>
