@@ -13,7 +13,8 @@ class AppController extends Controller
         parent::__construct($modelName, $action);
         /**
          * @todo loading in AppView can be done better
-         * At the moment the parent method sets view to new View and then this method just overwrites that
+         * At the moment the parent method sets view to new View
+         * then this method just overwrites that
          */
         $this->view = new AppView();
         $this->loadModel('Sessions');
@@ -23,6 +24,12 @@ class AppController extends Controller
         }
     }
 
+    /**
+     * Default authorisation that allows access to pages
+     * @param  string  $modelName Name of model e.g. 'Pages'
+     * @param  string  $action    Action to display e.g. 'view'
+     * @return boolean            If the action is authorised
+     */
     protected function auth($modelName, $action) {
         switch ($modelName) {
             case 'Pages':
