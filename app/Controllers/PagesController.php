@@ -5,8 +5,7 @@ namespace Controllers;
 class PagesController extends AppController
 {
 
-    public function index()
-    {
+    public function index() {
         $welcome = __('Welcome to Nemex');
         $this->set(compact('welcome'));
         if ($this->Sessions->isAuthed()) {
@@ -23,7 +22,6 @@ class PagesController extends AppController
     }
 
     public function login() {
-
         // Attempting to login?
         if ( !empty($_POST['username']) && !empty($_POST['password']) ) {
             if ( $this->Sessions->login($_POST['username'], $_POST['password']) ) {
