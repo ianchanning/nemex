@@ -31,7 +31,7 @@ class Config {
      * put a CSS file e.g example-markdown.css into app/webroot/assets/css/
      * set this option to 'example'
      * installed options are github | simonlc
-     * to use none set it to ''
+     * to use none (default nemex CSS) set it to ''
      */
     const MARKDOWN_CSS = 'github';
 }

@@ -1,7 +1,5 @@
 <?php
 
-use Config\Config;
-
 /**
  * shorthand escaped print function for use in templates
  * @param  string $string unescaped HTML

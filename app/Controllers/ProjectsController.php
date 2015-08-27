@@ -33,8 +33,8 @@ class ProjectsController extends AppController
      * View a shared project
      */
     public function readonly() {
-        $projectName = $_GET['name'];
-        $sharekey = $_GET['key'];
+        $projectName    = $_GET['name'];
+        $sharekey       = $_GET['key'];
 
         $project = $this->Projects->openWithSharekey($projectName, $sharekey);
         if ( !empty($project) ) {
