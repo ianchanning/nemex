@@ -24,9 +24,9 @@
 <progress id="uploadprogress" min="0" max="100" value="0" >0</progress>
 <div id="project" class="pcontent">
     <article>
-        <div id="holder">
+        <a id="holder" href="#">
             <input id="pup" class="knob" data-width="100" data-angleOffset="0" data-fgColor="#81DCDD" data-bgColor="#FFFFFF" data-thickness=".05" value="0">
-        </div>
+        </a>
         <p id="upload" class="hidden">
             <span class="cameraupload"></span>
             <input id="uup" class="upload" type="file"/>
