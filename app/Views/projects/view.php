@@ -45,9 +45,9 @@
         </div>
         <div class="c3edit" style="display:inline-block;">
             <textarea id="addfield" class="editareafield" placeholder="start writing markdown here" ></textarea>
-            <div class="addPost"></div>
-            <div class="discardAdd"></div>
-            <div class="backup"></div>
+            <a class="addPost" href="#"></a>
+            <a class="discardAdd" href="#"></a>
+            <a class="backup" href="#"></a>
         </div>
     </div>
 
@@ -56,8 +56,8 @@
         <div class="row node-<?php p($node->type);?>" data-name="<?php p($node->getName());?>">
             <div class="snap-drawers">
                 <div class="snap-drawer snap-drawer-right">
-                    <div class="edit m-sub e"></div>
-                    <div class="delete m-sub d"></div>
+                    <a class="edit m-sub e" href="#"></a>
+                    <a class="delete m-sub d" href="#"></a>
                 </div>
             </div>
             <div class="snap-content c3">
@@ -77,19 +77,19 @@
 
                     <div class="actions">
                         <?php if( $node->editable ) { ?>
-                            <div class="edit-big" data-target="r"></div>
+                            <a class="edit-big" href="#" data-target="r"></a>
                         <?php } ?>
-                        <div class="download-big"></div>
-                        <div class="delete-big"></div>
+                        <a class="download-big" href="#"></a>
+                        <a class="delete-big" href="#"></a>
                     </div>
                 </div>
             </div>
             <?php if( $node->editable ) { ?>
                 <div class="c3edit">
                     <textarea class="editareafield"></textarea>
-                    <div class="save"></div>
-                    <div class="discardUpdate"></div>
-                    <div class="backup"></div>
+                    <a href="#" class="save"></a>
+                    <a href="#" class="discardUpdate"></a>
+                    <a href="#" class="backup"></a>
                 </div>
             <?php } ?>
         </div>
