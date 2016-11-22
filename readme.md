@@ -30,7 +30,8 @@ This fork is a merge of nemex with my own [Vanda PHP micro framework](https://gi
 1. `cd app/Config`
 1. `cp Config-sample.php Config.php`
 1. edit the `USER` and `PASSWORD` constants in `Config.php`
-1. Create `PROJECTS_PATH` directory relative to `app/Models`
+1. Assuming you leave `PROJECTS_PATH` as is (whatever you change it to will be relative to the `app/Models` directory):
+1. `mkdir ../Models/projects`
 1. Go to <http://www.example.com/nemex>
 
 ## License
